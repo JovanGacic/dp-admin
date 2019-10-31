@@ -1,0 +1,21 @@
+input {
+    display: block;
+    margin:auto;
+}
+
+.login {
+    margin: auto;
+    width: 50%;
+    border: 3px solid rgb(97, 98, 153);
+    padding: 10px;
+    display: block;
+}
+
+button {
+    margin:auto;
+    display: block;
+}
+
+.register {
+    margin-top: 30px;
+}
