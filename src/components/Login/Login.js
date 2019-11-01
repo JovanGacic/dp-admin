@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './Login.css';
+import NavBar from '../NavBar/NavBar';
 import withFirebaseAuth from 'react-with-firebase-auth';
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
@@ -23,17 +24,17 @@ class Login extends Component {
         repeatedPassword: '',
         toggleRegistration: false,
         loginError:'',
-        registrationError:''
+        registrationError:'',
     }
     
-
     render(){
+        
         const {
             user,
-            error,
-            signOut
+            // error,
+             signOut,
          } = this.props;
-
+         
         return(
             
             <div>
@@ -41,8 +42,7 @@ class Login extends Component {
                 user 
                 ? (
                     <div> 
-                      <p>Hello, {user.uid}</p>
-                      <button onClick={signOut}>Log out</button>
+                       <NavBar user={user} signOut={signOut} />
                     </div>
                   )
                 : ( 
@@ -64,12 +64,11 @@ class Login extends Component {
                             <button className="register" onClick={this.toggleRegister}>Register</button>
                             <label>{this.state.loginError}</label> 
                           </div>  )
-
-                }
-                
+                } 
                 </div>
                   )
                 }
+              
             </div>
         )
     }
@@ -90,12 +89,12 @@ class Login extends Component {
        this.props.signInWithEmailAndPassword(email, password)
        .then(
            () => {
-              console.log('success');
+              console.log('Success.');
               this.setState({loginError:''})}
        )
        .catch(
           err => {
-              console.log('There was an error when trying to log you in! ' + err)
+              console.log('There was an error when trying to log you in. ' + err)
               this.setState({loginError:err.message})
         }
        );
@@ -106,17 +105,16 @@ class Login extends Component {
     }
 
     register(email, password){
-        console.log(email + password);
         if (this.validatePassword() === 0){
             this.props.createUserWithEmailAndPassword(email, password)
             .then(
                 () => {
-                console.log('success');
+                console.log('Success.');
                 this.setState({registrationError:''})}
             )
             .catch(
             err => {
-                console.log('There was an error when trying to sign you in! ' + err)
+                console.log('There was an error when trying to sign you up. ' + err)
                 this.setState({registrationError:err.message})
             }
             );
@@ -124,14 +122,25 @@ class Login extends Component {
     }
 
     validatePassword(){
-        if(this.state.password != this.state.repeatedPassword){
-            this.setState({registrationError:'Provided passwords do not match!'});
+        if(this.state.password !== this.state.repeatedPassword){
+            this.setState({registrationError:'Provided passwords do not match.'});
             return -1;
         }
         else
             return 0;
     }
+
+    signOut(){
+        this.props.signOut()
+        .then( () => {
+                 console.log("Success.");
+                })
+        .catch( (err) => {
+                console.log("There was an error while logging out. " + err.message);
+            });
+    }
 }
 
 export default withFirebaseAuth({
     firebaseAppAuth})(Login);
+
