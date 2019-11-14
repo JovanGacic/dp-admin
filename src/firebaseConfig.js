@@ -1,3 +1,7 @@
+import firebase from 'firebase/app';
+import 'firebase/auth';
+import 'firebase/database';
+
 const config = {
     apiKey: "AIzaSyAVgGfPWlYUQCHaIZhE-mLP_dwxsWfx_x8",
     authDomain: "daj-pivo.firebaseapp.com",
@@ -7,5 +11,7 @@ const config = {
     messagingSenderId: "394721960944",
     appId: "1:394721960944:web:573483f68351325f"
   };
+
+export const myFirebase = firebase.initializeApp(config);
 
 export default config;
