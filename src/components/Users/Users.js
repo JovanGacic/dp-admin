@@ -19,7 +19,7 @@ constructor(props){
     render(){
 
         return(
-            <div>
+            <div>     
                 <label>Add a new user</label>
                 <input type="text" placeholder="Email" onChange={event => this.handleEmail(event.target.value)}/>
                 <input type="password" placeholder="Password" onChange={event => this.handlePassword(event.target.value)}/>

@@ -29,6 +29,7 @@ export default (
                 loginError: false
             };
         case LOGIN_SUCCESS:
+            console.log(action.user);
             return {
                 ...state,
                 isLoggingIn: false,

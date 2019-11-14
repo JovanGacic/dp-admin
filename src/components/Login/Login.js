@@ -21,7 +21,6 @@ class Login extends Component {
     render(){
          
         const { loginError, isAuthenticated } = this.props;
-
         if (isAuthenticated){
             return <Redirect to="/" />
         } 
