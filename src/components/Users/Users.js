@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import "./Users.css";
 
 class Users extends Component {
@@ -19,7 +20,7 @@ constructor(props){
     render(){
 
         return(
-            <div>     
+            <div className="register">     
                 <label>Add a new user</label>
                 <input type="text" placeholder="Email" onChange={event => this.handleEmail(event.target.value)}/>
                 <input type="password" placeholder="Password" onChange={event => this.handlePassword(event.target.value)}/>
@@ -38,7 +39,7 @@ constructor(props){
                                 Sales
                                 </label>
                 </div>
-                <button className="register" onClick={() => this.register((this.state.email, this.state.password))}>Register</button>
+                <button onClick={() => this.register((this.state.email, this.state.password))}>Register</button>
                 <label>{this.state.registrationError}</label>
             </div>
         )}
@@ -75,4 +76,10 @@ constructor(props){
 
 }
 
-export default Users;
+function mapStateToProps(state){
+    return {
+        
+    };
+}
+
+export default connect(mapStateToProps)(Users);

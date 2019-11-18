@@ -21,6 +21,7 @@ class Login extends Component {
     render(){
          
         const { loginError, isAuthenticated } = this.props;
+
         if (isAuthenticated){
             return <Redirect to="/" />
         } 
@@ -33,9 +34,9 @@ class Login extends Component {
                     <input type="password" placeholder="Password" onChange={event => this.handlePassword(event.target.value)}/>     
                     <div>
                         <button onClick={() => this.login(this.state.email, this.state.password)}>Log in</button>
-                        <Link to="/registration">
-                            <button className="register">Register</button>
-                        </Link>
+                        {/* <Link to="/registration">
+                            <button>Register</button>
+                        </Link> */}
                         <label>{this.state.loginError}</label> 
                     </div>   
                 </div> 

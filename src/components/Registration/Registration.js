@@ -26,7 +26,6 @@ constructor(props){
                 <input type="password" placeholder="Password" onChange={event => this.handlePassword(event.target.value)}/> 
                 <input type="password" placeholder="Repeat password" onChange={event => this.handleRepeatPassword(event.target.value)}/>
                 <button onClick={() => this.register(this.state.email, this.state.password)}>Register</button>
-                <button onClick={this.toggleRegister}>Cancel</button>
                 <label>{this.state.registrationError}</label>    
                 <div>
                     <Link to="/login">

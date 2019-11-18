@@ -7,8 +7,8 @@ import { logoutUser } from '../../actions';
 class Home extends Component {
 
   render() {
-    const { isLoggingOut, logoutError } = this.props;
   
+    const { isLoggingOut, logoutError } = this.props;
       return (
         <div>
           <NavBar logoutUser={this.handleLogout}/>
@@ -26,7 +26,7 @@ class Home extends Component {
 function mapStateToProps(state){
   return {
      isLoggingOut: state.auth.isLoggingOut,
-     logoutError: state.auth.logoutError
+     logoutError: state.auth.logoutError,
   }
 }
 

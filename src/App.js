@@ -22,16 +22,6 @@ function App(props) {
     const {isAuthenticated, isVerifying } = props;
 
   return (
-  // <Provider store = {store}>
-  //   <Router>
-  //       <Route exact path="/login" component={Login}/>
-  //       <Route exact path="/registration" component={Registration}/>
-  //       <Route exact path="/" isAuthenticated={isAuthenticated} isVerifying={isVerifying} component={Home}/>
-  //       <Route exact path="/users" component={Users}/>
-  //     <div className="App">
-  //     </div>
-  //     </Router>
-  //   </Provider>
    <Router>
      
       <Switch>
@@ -43,7 +33,7 @@ function App(props) {
         isVerifying={isVerifying}
       />
       <Route path="/login" component={Login} />
-      <Route exact path="/registration" component={Registration}/>
+      {/* <Route exact path="/registration" component={Registration}/> */}
       <Route exact path="/users" component={Users}/>
     </Switch>
     </Router>
