@@ -12,7 +12,7 @@ class Home extends Component {
       return (
         <div>
           <NavBar logoutUser={this.handleLogout}/>
-          <h2>Home</h2>
+          <h2>Homee</h2>
         </div>
         );
   }
