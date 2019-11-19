@@ -43,6 +43,7 @@ export default (
                 loginError: true
             };
         case LOGOUT_REQUEST:
+            console.log(123);
             return {
                 ...state,
                 isLoggingOut: true,
