@@ -5,7 +5,13 @@ import { LOGIN_REQUEST,
          LOGOUT_SUCCESS,
          LOGOUT_FAILURE,
          VERIFY_REQUEST,
-         VERIFY_SUCCESS
+         VERIFY_SUCCESS,
+         ADD_USER_REQUEST,
+         ADD_USER_SUCCESS,
+         ADD_USER_FAILURE,
+         GET_DATA_REQUEST,
+         GET_DATA_SUCCESS,
+         GET_DATA_FAILURE
         } from '../actions/';
 
 export default (
@@ -17,7 +23,10 @@ export default (
         loginError: false,
         logoutError: false,
         isAuthenticated: false,
-        user: {}
+        user: {},
+        registrationError: false,
+        registrationErrorMsg: '',
+        data: []
     },
     action
      ) => {
@@ -43,7 +52,6 @@ export default (
                 loginError: true
             };
         case LOGOUT_REQUEST:
-            console.log(123);
             return {
                 ...state,
                 isLoggingOut: true,
@@ -72,6 +80,34 @@ export default (
             return {
                 ...state,
                 isVerifying: false
+            }
+        case ADD_USER_REQUEST:
+            return {
+                ...state
+            }
+        case ADD_USER_SUCCESS:
+            return {
+                ...state,
+                registrationError: false
+            }
+        case ADD_USER_FAILURE:
+            return {
+                ...state,
+                registrationError: true,
+                registrationErrorMsg: action.error.message
+            }
+        case GET_DATA_REQUEST:
+            return {
+                ...state
+            }
+        case GET_DATA_SUCCESS:
+            return {
+                ...state,
+                data: action.data
+            }
+        case GET_DATA_FAILURE:
+            return {
+                ...state
             }
         default:
             return state;

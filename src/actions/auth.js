@@ -11,6 +11,54 @@ export const LOGOUT_FAILURE = 'LOGOUT_FAILURE';
 export const VERIFY_SUCCESS = 'VERIFY_SUCCESS';
 export const VERIFY_REQUEST = 'VERIFY_REQUEST';
 
+export const ADD_USER_REQUEST = 'ADD_USER_REQUEST';
+export const ADD_USER_SUCCESS = 'ADD_USER_SUCCESS';
+export const ADD_USER_FAILURE = 'ADD_USER_FAILURE';
+
+export const ADD_USER_ROLE_REQUEST = 'ADD_USER_ROLE_REQUEST';
+export const ADD_USER_ROLE_SUCCESS = 'ADD_USER_ROLE_SUCCESS';
+export const ADD_USER_ROLE_FAILURE = 'ADD_USER_ROLE_FAILURE';
+
+export const GET_DATA_REQUEST = 'GET_DATA_REQUEST';
+export const GET_DATA_SUCCESS = 'GET_DATA_SUCCESS';
+export const GET_DATA_FAILURE = 'GET_DATA_FAILURE';
+
+
+const requestGetData = () => {
+    return {
+        type: GET_DATA_REQUEST
+    };
+};
+
+const receiveGetData = () => {
+    return {
+        type: GET_DATA_SUCCESS
+    }
+}
+
+const getDataError = () => {
+    return {
+        type: GET_DATA_FAILURE
+    }
+}
+
+const requestAddUserRole = () => {
+    return {
+        type: ADD_USER_ROLE_REQUEST
+    };
+};
+
+const receiveAddUserRole = () => {
+    return {
+        type: ADD_USER_ROLE_SUCCESS
+    };
+};
+
+const addUserRoleError = () => {
+    return {
+        type: ADD_USER_ROLE_FAILURE
+    };
+};
 
 const requestLogin = () => {
     return {
@@ -61,6 +109,41 @@ const verifySuccess = () => {
     };
 };
 
+const requestAddUser = () => {
+    return {
+        type: ADD_USER_REQUEST
+    };
+};
+
+const receiveAddUser = () => {
+    return {
+        type: ADD_USER_SUCCESS
+    };
+};
+
+const addUserError = error => {
+    return {
+        type: ADD_USER_FAILURE,
+        error
+    };
+};
+
+export const getData = () => dispatch => {
+    console.log('alo')
+    dispatch(requestGetData());
+    myFirebase
+        .database
+        .ref('data')
+        .once('value')
+        .then(snapshot => {
+            console.log(snapshot.val);
+            dispatch(receiveGetData(snapshot.val));
+        })
+        .catch(error => {
+            dispatch(getDataError());
+        })
+};
+
 export const loginUser = (email, password) => dispatch => {
     dispatch(requestLogin());
     myFirebase
@@ -69,13 +152,13 @@ export const loginUser = (email, password) => dispatch => {
         .then(user => {
             dispatch(receiveLogin(user));
         })
-        .catch(error => {
-            dispatch(loginError());
-        });
+        .catch(error => 
+            dispatch(loginError())
+        );
 };
 
 export const logoutUser = () => dispatch => {
-  
+    
     dispatch(requestLogout());
     myFirebase
         .auth()
@@ -99,3 +182,32 @@ export const verifyAuth = () => dispatch => {
             dispatch(verifySuccess());
         });
 };
+
+export const addUser = (email, password) => dispatch => {
+    dispatch(requestAddUser());
+    myFirebase
+        .auth()
+        .createUserWithEmailAndPassword(email, password)
+        .then( () =>
+            dispatch(receiveAddUser())
+        )
+        .catch(error => {
+            console.log(error);
+            dispatch(addUserError(error));
+        });
+};
+
+export const addUserRole = (userId, role) => dispatch => {
+    dispatch(requestAddUserRole());
+    myFirebase
+    .database()
+    .ref('users')
+    .push({'userId':userId, 'role': role})
+    .then( () => 
+        dispatch(receiveAddUserRole())
+    )
+    .catch(error => {
+        dispatch(addUserRoleError(error));
+    })
+};
+

@@ -11,7 +11,7 @@ export default class NavBar extends Component {
    
     return (
 
-   
+
         <div>
           <ul>
             <li>
@@ -21,7 +21,7 @@ export default class NavBar extends Component {
               <Link to="/users">Users</Link>
             </li>
             <li>
-              <Link to="/dashboard">Dashboard</Link>
+              <Link to="/beers">Beers</Link>
             </li>
             <li><p>You are logged in</p></li>
             <li className="right">
