@@ -8,32 +8,26 @@ import { getData } from '../../actions';
 class Home extends Component {
 
 state = {
-  dataList: {}
+  array: []
 }
 
-  async componentDidMount(){
-    const x = await this.getData();
-    this.setState({dataList:x});
-  }
+ async componentDidMount(){
+   await this.getData();
+   // setTimeout(() => {
+      console.log(this.props);  
+   // }, 2000); 
+}
 
-  renderObj = () => { 
-    const { data } = this.props;
-    Object.keys(data).map((obj, i) => {
-      return (
-        <div>
-          {data[obj].nesto}
-          <h1>4</h1>
-        </div>
-      )})}
+
 
   render() {
   
-    const { isLoggingOut, logoutError } = this.props;
+    //const { isLoggingOut, logoutError, data } = this.props;
+   
       return (
         <div>
           <NavBar logoutUser={this.handleLogout}/>
           <h2>Home</h2>
-          {this.renderObj()}
         </div>
         );
   }
@@ -43,10 +37,10 @@ state = {
     dispatch(logoutUser());
   } 
 
-  getData = () => {
-    console.log('udri');
+  getData = async() => {
     const { dispatch } = this.props;
     dispatch(getData());
+  
   } 
 
 }

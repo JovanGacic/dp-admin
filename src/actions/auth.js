@@ -117,7 +117,7 @@ const requestAddUser = () => {
     };
 };
 
-const receiveAddUser = () => {
+const receiveAddUser = user => {
     return {
         type: ADD_USER_SUCCESS
     };
@@ -130,17 +130,26 @@ const addUserError = error => {
     };
 };
 
+const transformDataResponse = object => {
+    const array = [];
+    const keys = Object.keys(object);
+    keys.forEach(key => {
+        const order = {id: key}
+        array.push(Object.assign(order, object[key]))
+    })
+    return array;
+};
+
 export const getData = () => dispatch => {
-    console.log('alo')
+    let niz = [];
     dispatch(requestGetData());
-    //console.log(myFirebase);
     myFirebase
         .database()
         .ref('/data')
         .once('value')
         .then((snapshot) => {
-            console.log(snapshot.val());
-            dispatch(receiveGetData(snapshot.val()));
+            niz = transformDataResponse(snapshot.val())
+            dispatch(receiveGetData(niz));
         })
         .catch(error => {
             dispatch(getDataError());
@@ -191,8 +200,10 @@ export const addUser = (email, password) => dispatch => {
     myFirebase
         .auth()
         .createUserWithEmailAndPassword(email, password)
-        .then( () =>
-            dispatch(receiveAddUser())
+        .then( user => {
+            dispatch(receiveAddUser(user));
+          //  addUserRole(user.id,);
+            }
         )
         .catch(error => {
             console.log(error);

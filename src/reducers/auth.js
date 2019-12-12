@@ -62,7 +62,8 @@ export default (
                 ...state,
                 isLoggingOut: false,
                 isAuthenticated: false,
-                user: {}
+                user: {},
+                data: []
             };
         case LOGOUT_FAILURE:
             return {
@@ -101,7 +102,6 @@ export default (
                 ...state
             }
         case GET_DATA_SUCCESS:
-            console.log('podaci' + action.data);
             return {
                 ...state,
                 data: action.data
