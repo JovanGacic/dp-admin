@@ -101,6 +101,7 @@ export default (
                 ...state
             }
         case GET_DATA_SUCCESS:
+            console.log('podaci' + action.data);
             return {
                 ...state,
                 data: action.data

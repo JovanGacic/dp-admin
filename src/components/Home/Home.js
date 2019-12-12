@@ -7,11 +7,24 @@ import { getData } from '../../actions';
 
 class Home extends Component {
 
-  constructor(){
-    super();
-    console.log('cao');
-    getData();
+state = {
+  dataList: {}
+}
+
+  async componentDidMount(){
+    const x = await this.getData();
+    this.setState({dataList:x});
   }
+
+  renderObj = () => { 
+    const { data } = this.props;
+    Object.keys(data).map((obj, i) => {
+      return (
+        <div>
+          {data[obj].nesto}
+          <h1>4</h1>
+        </div>
+      )})}
 
   render() {
   
@@ -20,6 +33,7 @@ class Home extends Component {
         <div>
           <NavBar logoutUser={this.handleLogout}/>
           <h2>Home</h2>
+          {this.renderObj()}
         </div>
         );
   }
@@ -27,6 +41,12 @@ class Home extends Component {
   handleLogout = () => {
     const { dispatch } = this.props;
     dispatch(logoutUser());
+  } 
+
+  getData = () => {
+    console.log('udri');
+    const { dispatch } = this.props;
+    dispatch(getData());
   } 
 
 }

@@ -1,4 +1,5 @@
 import { myFirebase } from '../firebaseConfig';
+import firebase from 'firebase';
 
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
@@ -30,9 +31,10 @@ const requestGetData = () => {
     };
 };
 
-const receiveGetData = () => {
+const receiveGetData = data => {
     return {
-        type: GET_DATA_SUCCESS
+        type: GET_DATA_SUCCESS,
+        data
     }
 }
 
@@ -131,13 +133,14 @@ const addUserError = error => {
 export const getData = () => dispatch => {
     console.log('alo')
     dispatch(requestGetData());
+    //console.log(myFirebase);
     myFirebase
-        .database
-        .ref('data')
+        .database()
+        .ref('/data')
         .once('value')
-        .then(snapshot => {
-            console.log(snapshot.val);
-            dispatch(receiveGetData(snapshot.val));
+        .then((snapshot) => {
+            console.log(snapshot.val());
+            dispatch(receiveGetData(snapshot.val()));
         })
         .catch(error => {
             dispatch(getDataError());
