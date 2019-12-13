@@ -85,18 +85,15 @@ constructor(props){
         dispatch(logoutUser());
       } 
 
-    addUserAndRole(email, password, role){
-        const { dispatch, user } = this.props;
-    
-        dispatch(addUser(email, password));
-       // dispatch(addUserRole(user.id, role));
-    
-    }
+    addUserAndRole = (email, password, role) => {
+        const { dispatch } = this.props;
+        dispatch(addUser(email, password, role));
+      
+      } 
 }
 
 function mapStateToProps(state){
     return {
-        user: state.auth.user,
         registrationError: state.auth.registrationError,
         registrationErrorMsg: state.auth.registrationErrorMsg
     };

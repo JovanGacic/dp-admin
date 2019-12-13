@@ -26,7 +26,7 @@ export default (
         user: {},
         registrationError: false,
         registrationErrorMsg: '',
-        data: []
+        data: [],
     },
     action
      ) => {
@@ -89,7 +89,7 @@ export default (
         case ADD_USER_SUCCESS:
             return {
                 ...state,
-                registrationError: false
+                registrationError: false,
             }
         case ADD_USER_FAILURE:
             return {

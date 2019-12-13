@@ -117,9 +117,9 @@ const requestAddUser = () => {
     };
 };
 
-const receiveAddUser = user => {
+const receiveAddUser = () => {
     return {
-        type: ADD_USER_SUCCESS
+        type: ADD_USER_SUCCESS,
     };
 };
 
@@ -146,14 +146,14 @@ export const getData = () => dispatch => {
     myFirebase
         .database()
         .ref('/data')
-        .once('value')
-        .then((snapshot) => {
+        .on('value',
+        snapshot => {
             niz = transformDataResponse(snapshot.val())
             dispatch(receiveGetData(niz));
-        })
-        .catch(error => {
-            dispatch(getDataError());
-        })
+        });
+        // .catch(error => {
+        //     dispatch(getDataError());
+        // })
 };
 
 export const loginUser = (email, password) => dispatch => {
@@ -195,33 +195,31 @@ export const verifyAuth = () => dispatch => {
         });
 };
 
-export const addUser = (email, password) => dispatch => {
+export const addUser = (email, password, role) => dispatch => {
     dispatch(requestAddUser());
     myFirebase
         .auth()
         .createUserWithEmailAndPassword(email, password)
         .then( user => {
-            dispatch(receiveAddUser(user));
-          //  addUserRole(user.id,);
+            dispatch(receiveAddUser());
+            addUserRole(user.user.uid,role);
             }
         )
         .catch(error => {
-            console.log(error);
             dispatch(addUserError(error));
         });
 };
 
-export const addUserRole = (userId, role) => dispatch => {
-    dispatch(requestAddUserRole());
+const addUserRole = (userId, role) => {
     myFirebase
     .database()
     .ref('users')
     .push({'userId':userId, 'role': role})
     .then( () => 
-        dispatch(receiveAddUserRole())
-    )
+        console.log('Successfully added role.')
+   )
     .catch(error => {
-        dispatch(addUserRoleError(error));
+        console.log('There was an error while adding role ' + error);
     })
 };
 
