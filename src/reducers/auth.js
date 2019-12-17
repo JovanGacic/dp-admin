@@ -21,6 +21,7 @@ export default (
         isVerifying: false,
         verifyingError: false,
         loginError: false,
+        loginErrorMessage: '',
         logoutError: false,
         isAuthenticated: false,
         user: {},
@@ -49,7 +50,8 @@ export default (
                 ...state,
                 isLoggingIn: false,
                 isAuthenticated: false,
-                loginError: true
+                loginError: true,
+                loginErrorMessage: action.error.message
             };
         case LOGOUT_REQUEST:
             return {

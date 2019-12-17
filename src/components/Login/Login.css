@@ -1,17 +1,19 @@
-input {
-    display: block;
-    margin:auto;
-}
-
 .login {
-    margin: auto;
     width: 50%;
-    border: 3px solid rgb(97, 98, 153);
     padding: 10px;
     display: block;
+    text-align: center;
+    display: block;
+    margin:auto;
 }
 
-button {
+input {
+    width: 40%;
+}
+
+.loginBtn {
     margin:auto;
     display: block;
+    margin-top: 10px;
+    width: 50%;
 }

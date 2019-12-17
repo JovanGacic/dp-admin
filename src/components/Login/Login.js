@@ -20,7 +20,7 @@ class Login extends Component {
     
     render(){
          
-        const { loginError, isAuthenticated } = this.props;
+        const { loginError, isAuthenticated, loginErrorMessage } = this.props;
 
         if (isAuthenticated){
             return <Redirect to="/" />
@@ -30,14 +30,15 @@ class Login extends Component {
           return(  
             <div>
                 <div className="login">
+                    <h2>Daj Pivo Admin</h2>
                     <input type="text" placeholder="Email" onChange={event => this.handleEmail(event.target.value)}/>
                     <input type="password" placeholder="Password" onChange={event => this.handlePassword(event.target.value)}/>     
                     <div>
-                        <button onClick={() => this.login(this.state.email, this.state.password)}>Log in</button>
-                        {/* <Link to="/registration">
+                        <button className="loginBtn" onClick={() => this.login(this.state.email, this.state.password)}>Log in</button>
+                        {/* <Link style={{margin:"10px"}} to="/registration">
                             <button>Register</button>
                         </Link> */}
-                        <label>{this.state.loginError}</label> 
+                        <label style={{color:"red"}}>{loginErrorMessage}</label> 
                     </div>   
                 </div> 
             </div>
@@ -86,7 +87,8 @@ function mapStateToProps(state){
     return {
         isLoggingIn: state.auth.isLoggingIn,
         loginError: state.auth.loginError,
-        isAuthenticated: state.auth.isAuthenticated
+        isAuthenticated: state.auth.isAuthenticated,
+        loginErrorMessage: state.auth.loginErrorMessage
     };
 }
 
