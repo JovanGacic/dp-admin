@@ -33,7 +33,6 @@ function App(props) {
         isVerifying={isVerifying}
       />
       <Route path="/login" component={Login} />
-      {/* <Route exact path="/registration" component={Registration}/> */}
       <Route exact path="/users" component={Users}/>
     </Switch>
     </Router>

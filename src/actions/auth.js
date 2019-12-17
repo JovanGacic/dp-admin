@@ -24,6 +24,9 @@ export const GET_DATA_REQUEST = 'GET_DATA_REQUEST';
 export const GET_DATA_SUCCESS = 'GET_DATA_SUCCESS';
 export const GET_DATA_FAILURE = 'GET_DATA_FAILURE';
 
+export const FETCH_ROLE_SUCCESS = 'FETCH_ROLE_SUCCESS';
+export const FETCH_ROLE_ERROR = 'FETCH_ROLE_ERROR';
+
 
 const requestGetData = () => {
     return {
@@ -131,6 +134,19 @@ const addUserError = error => {
     };
 };
 
+const fetchRoleSuccess = role => {
+    return {
+        type: FETCH_ROLE_SUCCESS,
+        role
+    }
+}
+
+const fetchRoleError = () => {
+    return {
+        type: FETCH_ROLE_ERROR
+    }
+}
+
 const transformDataResponse = object => {
     const array = [];
     const keys = Object.keys(object);
@@ -158,17 +174,35 @@ export const getData = () => dispatch => {
 };
 
 export const loginUser = (email, password) => dispatch => {
+    let role = '';
     dispatch(requestLogin());
     myFirebase
         .auth()
         .signInWithEmailAndPassword(email,password)
         .then(user => {
             dispatch(receiveLogin(user));
+            getUserRole(user.user.uid);
         })
         .catch(error => {
           //  console.log(error.message);
             dispatch(loginError(error))}
         );
+};
+
+const getUserRole = userId => {
+    myFirebase
+    .database()
+    .ref('users')
+    .orderByChild('userId')
+    .equalTo(userId)
+    .once('value')
+    .then( snapshot => {
+        console.log(snapshot.val());
+    }
+   )
+    .catch(error => {
+        console.log('There was an error while fetching role ' + error);
+    })
 };
 
 export const logoutUser = () => dispatch => {

@@ -12,6 +12,7 @@ import {
     Link
   } from "react-router-dom";
 
+
 class Login extends Component {
 
     state = {
@@ -22,7 +23,6 @@ class Login extends Component {
     }
     
     render(){
-         
         const { loginError, isLoggingIn, isAuthenticated, loginErrorMessage } = this.props;
 
         if (isAuthenticated){
@@ -32,24 +32,25 @@ class Login extends Component {
         else {
 
             return(  
-            <div>
-                <div className="login">
-                    <h2>Daj Pivo Admin</h2>
-                    
-                    <TextField id="outlined-basic" label="Email" variant="outlined" onChange={event => this.handleEmail(event.target.value)} />
-                    <TextField id="outlined-basic" label="Password" type="password" variant="outlined" onChange={event => this.handlePassword(event.target.value)} />
+       
+            <form noValidate autoComplete="off">
+                    <h2>DP - Admin</h2>
+                    <div className="textField">
+                        <TextField id="outlined-basic" label="Email" variant="outlined" onChange={event => this.handleEmail(event.target.value)} />
+                    </div>
+                    <div className="textField">
+                        <TextField id="outlined-basic" label="Password" type="password" variant="outlined" onChange={event => this.handlePassword(event.target.value)} />
+                    </div>
                     <div className="button">
                         <Button className="loginBtn" onClick={() => this.login(this.state.email, this.state.password)} variant="contained" color="primary">
-                        {isLoggingIn ? <CircularProgress color="secondary" /> : 'Log in'}
+                        {isLoggingIn ? <CircularProgress color="inherit" size={24}/> : 'Log in'}
                         </Button>
-                        {/* <button className="loginBtn" onClick={() => this.login(this.state.email, this.state.password)}>Log in</button> */}
-                        {/* <Link style={{margin:"10px"}} to="/registration">
-                            <button>Register</button>
-                        </Link> */}
+                      
                         <label style={{color:"red"}}>{loginErrorMessage}</label> 
+           
                     </div>   
-                </div> 
-            </div>
+            </form>
+                
         )
         }
     }

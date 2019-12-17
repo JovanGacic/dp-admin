@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
+import { connect } from 'react-redux';
 import './NavBar.css';
 import {
     Link
   } from "react-router-dom";
 
-export default class NavBar extends Component {
+class NavBar extends Component {
 
    // as {this.props.user.email}
    render(){ 
@@ -35,3 +36,11 @@ export default class NavBar extends Component {
     )}
       
 }
+
+function mapStateToProps(state){
+  return {
+     
+  }
+}
+
+export default connect(mapStateToProps)(NavBar);
