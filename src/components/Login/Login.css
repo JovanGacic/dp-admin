@@ -7,13 +7,12 @@
     margin:auto;
 }
 
-input {
-    width: 40%;
-}
-
 .loginBtn {
     margin:auto;
     display: block;
-    margin-top: 10px;
     width: 50%;
+}
+
+.button {
+    margin-top: 10px;
 }

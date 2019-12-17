@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { loginUser } from '../../actions';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import './Login.css';
 
@@ -20,21 +23,26 @@ class Login extends Component {
     
     render(){
          
-        const { loginError, isAuthenticated, loginErrorMessage } = this.props;
+        const { loginError, isLoggingIn, isAuthenticated, loginErrorMessage } = this.props;
 
         if (isAuthenticated){
             return <Redirect to="/" />
         } 
         
         else {
-          return(  
+
+            return(  
             <div>
                 <div className="login">
                     <h2>Daj Pivo Admin</h2>
-                    <input type="text" placeholder="Email" onChange={event => this.handleEmail(event.target.value)}/>
-                    <input type="password" placeholder="Password" onChange={event => this.handlePassword(event.target.value)}/>     
-                    <div>
-                        <button className="loginBtn" onClick={() => this.login(this.state.email, this.state.password)}>Log in</button>
+                    
+                    <TextField id="outlined-basic" label="Email" variant="outlined" onChange={event => this.handleEmail(event.target.value)} />
+                    <TextField id="outlined-basic" label="Password" type="password" variant="outlined" onChange={event => this.handlePassword(event.target.value)} />
+                    <div className="button">
+                        <Button className="loginBtn" onClick={() => this.login(this.state.email, this.state.password)} variant="contained" color="primary">
+                        {isLoggingIn ? <CircularProgress color="secondary" /> : 'Log in'}
+                        </Button>
+                        {/* <button className="loginBtn" onClick={() => this.login(this.state.email, this.state.password)}>Log in</button> */}
                         {/* <Link style={{margin:"10px"}} to="/registration">
                             <button>Register</button>
                         </Link> */}
