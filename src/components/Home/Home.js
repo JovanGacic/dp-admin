@@ -47,13 +47,14 @@ state = {
   getData = async() => {
     const { dispatch } = this.props;
     dispatch(getData());
-  
   } 
+
 
 }
 function mapStateToProps(state){
   return {
-     data: state.auth.data
+     data: state.auth.data,
+     user: state.auth.user
   }
 }
 

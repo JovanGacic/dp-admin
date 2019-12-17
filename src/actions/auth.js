@@ -135,6 +135,7 @@ const addUserError = error => {
 };
 
 const fetchRoleSuccess = role => {
+    console.log(role);
     return {
         type: FETCH_ROLE_SUCCESS,
         role
@@ -156,6 +157,16 @@ const transformDataResponse = object => {
     })
     return array;
 };
+
+const transformRoleResponse = async(object) => {
+    const array = [];
+    const keys = Object.keys(object);
+    keys.forEach(key => {
+        const user = {id:key}
+        array.push(Object.assign(user,object[key]))
+    })
+    return array;
+}
 
 export const getData = () => dispatch => {
     let niz = [];
@@ -190,19 +201,19 @@ export const loginUser = (email, password) => dispatch => {
 };
 
 const getUserRole = userId => {
-    myFirebase
-    .database()
-    .ref('users')
-    .orderByChild('userId')
-    .equalTo(userId)
-    .once('value')
-    .then( snapshot => {
-        console.log(snapshot.val());
-    }
-   )
-    .catch(error => {
-        console.log('There was an error while fetching role ' + error);
-    })
+     myFirebase
+            .database()
+            .ref('users')
+            .orderByChild('userId')
+            .equalTo(userId)
+            .once('value')
+            .then( snapshot => {
+               console.log(transformRoleResponse(snapshot.val()));
+            }
+        )
+            .catch(error => {
+                console.log('There was an error while fetching role ' + error);
+            })
 };
 
 export const logoutUser = () => dispatch => {

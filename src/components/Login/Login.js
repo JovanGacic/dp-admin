@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component} from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { loginUser } from '../../actions';
@@ -12,8 +12,8 @@ import {
     Link
   } from "react-router-dom";
 
-
 class Login extends Component {
+
 
     state = {
         user: {},
@@ -34,6 +34,9 @@ class Login extends Component {
             return(  
        
             <form noValidate autoComplete="off">
+                   <div style={{margin:"auto"}}>
+                        <img src={require("../../assets/logo_transparent.png")} alt="Daj Pivo" style={{height:"40%", width:"40%"}}></img>
+                    </div>
                     <h2>DP - Admin</h2>
                     <div className="textField">
                         <TextField id="outlined-basic" label="Email" variant="outlined" onChange={event => this.handleEmail(event.target.value)} />
@@ -45,10 +48,11 @@ class Login extends Component {
                         <Button className="loginBtn" onClick={() => this.login(this.state.email, this.state.password)} variant="contained" color="primary">
                         {isLoggingIn ? <CircularProgress color="inherit" size={24}/> : 'Log in'}
                         </Button>
+                    </div> 
+                    <div>
+                        {loginError ? <label style={{color:"red"}}>{loginErrorMessage}</label> : null}
+                    </div>
                       
-                        <label style={{color:"red"}}>{loginErrorMessage}</label> 
-           
-                    </div>   
             </form>
                 
         )
