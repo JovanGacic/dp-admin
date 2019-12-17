@@ -1,9 +1,11 @@
 import React, {Component} from "react";
-import { isTemplateElement } from "@babel/types";
+import './DataListItem.css';
 
 export default function DataListItem (props) {
-  
+  //  console.log(props.item.id);
     return (
-        <li key={props.key}>{props.item.nesto}</li>
+        <div className="dataList">
+            <li className="listItem" key={props.id}><a className="anchor">{props.item.nesto}</a></li>
+        </div>
     )
 }

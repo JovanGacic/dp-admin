@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { logoutUser } from '../../actions';
 import { getData } from '../../actions';
 import DataListItem from "../DataListItem/DataListItem";
+import './Home.css';
 
 
 class Home extends Component {
@@ -19,9 +20,10 @@ state = {
   renderData(){
     const { data } = this.props;
     return data.map((item,key) => 
-  
+      
       //<li key={key}>{item.nesto}</li>
-      <DataListItem key={key} item={item}/>
+      
+      <DataListItem key={key} id={item.id} item={item}/>
   
     );
   }
@@ -29,9 +31,9 @@ state = {
   render() {
 
       return (
-        <div>
+        <div className="home">
           <NavBar logoutUser={this.handleLogout}/>
-          <h2>Home</h2>
+          <h2>Orders</h2>
           <div>{this.renderData()}</div>
         </div>
         );
