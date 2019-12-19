@@ -9,7 +9,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import './Login.css';
 
 import {
-    Link
+    
   } from "react-router-dom";
 
 class Login extends Component {
@@ -28,21 +28,18 @@ class Login extends Component {
         if (isAuthenticated){
             return <Redirect to="/" />
         } 
-        
         else {
-
             return(  
-       
             <form noValidate autoComplete="off">
                    <div style={{margin:"auto"}}>
                         <img src={require("../../assets/logo_transparent.png")} alt="Daj Pivo" style={{height:"40%", width:"40%"}}></img>
                     </div>
                     <h2>DP - Admin</h2>
                     <div className="textField">
-                        <TextField id="outlined-basic" label="Email" variant="outlined" onChange={event => this.handleEmail(event.target.value)} />
+                        <TextField id="outlined-basic1" label="Email" variant="outlined" onChange={event => this.handleEmail(event.target.value)} />
                     </div>
                     <div className="textField">
-                        <TextField id="outlined-basic" label="Password" type="password" variant="outlined" onChange={event => this.handlePassword(event.target.value)} />
+                        <TextField id="outlined-basic2" label="Password" type="password" variant="outlined" onChange={event => this.handlePassword(event.target.value)} />
                     </div>
                     <div className="button">
                         <Button className="loginBtn" onClick={() => this.login(this.state.email, this.state.password)} variant="contained" color="primary">
@@ -51,11 +48,9 @@ class Login extends Component {
                     </div> 
                     <div>
                         {loginError ? <label style={{color:"red"}}>{loginErrorMessage}</label> : null}
-                    </div>
-                      
+                    </div>      
             </form>
-                
-        )
+            )
         }
     }
 
@@ -68,21 +63,8 @@ class Login extends Component {
     }
 
     login(email, password){
-    //    this.props.signInWithEmailAndPassword(email, password)
-    //    .then(
-    //        () => {
-    //           console.log('Success.');
-    //           this.setState({loginError:''})}
-    //    )
-    //    .catch(
-    //       err => {
-    //           console.log('There was an error when trying to log you in. ' + err)
-    //           this.setState({loginError:err.message})
-    //     }
-    //    );
-          const {dispatch} = this.props;
-          
-          dispatch(loginUser(email,password))
+        const {dispatch} = this.props;
+        dispatch(loginUser(email,password))
     }
 
     signOut(){

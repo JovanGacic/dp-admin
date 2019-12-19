@@ -3,8 +3,7 @@ import { connect } from 'react-redux';
 import "./Users.css";
 
 import Navbar from '../NavBar/NavBar';
-import { logoutUser, addUser, addUserRole } from '../../actions';
-import firebase from 'firebase';
+import { logoutUser, addUser } from '../../actions';
 
 
 class Users extends Component {
@@ -23,37 +22,47 @@ constructor(props){
     }
 
     render(){
-        const { registrationError,registrationErrorMsg } = this.props;
-        return(
-            <div>
-                <Navbar logoutUser={this.handleLogout}/>
-                <div className="register">     
-                    <label>Add a new user</label>
-                    <input type="text" placeholder="Email" onChange={event => this.handleEmail(event.target.value)}/>
-                    <input type="password" placeholder="Password" onChange={event => this.handlePassword(event.target.value)}/>
-                    <input type="password" placeholder="Repeat password" onChange={event => this.handleRepeatPassword(event.target.value)}/>
-                    <div>
-                    <label><input className="radio" type="radio" value="admin" 
-                                    checked={this.state.role === 'admin'}
-                                    onChange={event => this.handleRole(event.target.value)}
-                                    />
-                                    Admin
-                                    </label>
-                    <label><input className="radio" type="radio" value="sales"
-                                    checked={this.state.role === 'sales'}
-                                    onChange={event => this.handleRole(event.target.value)}
-                                    />
-                                    Sales
-                                    </label>
+        const { registrationError,registrationErrorMsg,role} = this.props;
+        if ( role === 'admin') {
+            return (
+                <div>
+                    <Navbar logoutUser={this.handleLogout}/>
+                    <div className="register">     
+                        <label>Add a new user</label>
+                        <input type="text" placeholder="Email" onChange={event => this.handleEmail(event.target.value)}/>
+                        <input type="password" placeholder="Password" onChange={event => this.handlePassword(event.target.value)}/>
+                        <input type="password" placeholder="Repeat password" onChange={event => this.handleRepeatPassword(event.target.value)}/>
+                        <div>
+                        <label><input className="radio" type="radio" value="admin" 
+                                        checked={this.state.role === 'admin'}
+                                        onChange={event => this.handleRole(event.target.value)}
+                                        />
+                                        Admin
+                                        </label>
+                        <label><input className="radio" type="radio" value="sales"
+                                        checked={this.state.role === 'sales'}
+                                        onChange={event => this.handleRole(event.target.value)}
+                                        />
+                                        Sales
+                                        </label>
+                        </div>
+                        <button onClick={() => this.addUserAndRole(this.state.email, this.state.password, this.state.role)}>Register</button>
+                        { registrationError ? 
+                        <label>{registrationErrorMsg}</label>
+                        : null
+                        }
                     </div>
-                    <button onClick={() => this.addUserAndRole(this.state.email, this.state.password, this.state.role)}>Register</button>
-                    { registrationError ? 
-                    <label>{registrationErrorMsg}</label>
-                    : null
-                    }
                 </div>
-            </div>
-        )}
+            )}
+           else {
+                return <h2>You do not have authorization for the USERS menu.</h2>
+           }
+        }
+
+        
+
+
+    
     
     handlePassword(value){
         this.setState({password:value});
@@ -95,7 +104,8 @@ constructor(props){
 function mapStateToProps(state){
     return {
         registrationError: state.auth.registrationError,
-        registrationErrorMsg: state.auth.registrationErrorMsg
+        registrationErrorMsg: state.auth.registrationErrorMsg,
+        role: state.auth.role
     };
 }
 

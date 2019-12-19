@@ -1,5 +1,4 @@
 import { myFirebase } from '../firebaseConfig';
-import firebase from 'firebase';
 
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
@@ -22,10 +21,9 @@ export const ADD_USER_ROLE_FAILURE = 'ADD_USER_ROLE_FAILURE';
 
 export const GET_DATA_REQUEST = 'GET_DATA_REQUEST';
 export const GET_DATA_SUCCESS = 'GET_DATA_SUCCESS';
-export const GET_DATA_FAILURE = 'GET_DATA_FAILURE';
 
-export const FETCH_ROLE_SUCCESS = 'FETCH_ROLE_SUCCESS';
-export const FETCH_ROLE_ERROR = 'FETCH_ROLE_ERROR';
+export const GET_ROLE_SUCCESS = 'GET_ROLE_SUCCESS';
+export const GET_ROLE_ERROR = 'GET_ROLE_ERROR';
 
 
 const requestGetData = () => {
@@ -38,12 +36,6 @@ const receiveGetData = data => {
     return {
         type: GET_DATA_SUCCESS,
         data
-    }
-}
-
-const getDataError = () => {
-    return {
-        type: GET_DATA_FAILURE
     }
 }
 
@@ -134,17 +126,17 @@ const addUserError = error => {
     };
 };
 
-const fetchRoleSuccess = role => {
-    console.log(role);
+const getRoleSuccess = role => {
     return {
-        type: FETCH_ROLE_SUCCESS,
+        type: GET_ROLE_SUCCESS,
         role
     }
 }
 
-const fetchRoleError = () => {
+const getRoleError = error => {
     return {
-        type: FETCH_ROLE_ERROR
+        type: GET_ROLE_ERROR,
+        error
     }
 }
 
@@ -158,15 +150,15 @@ const transformDataResponse = object => {
     return array;
 };
 
-const transformRoleResponse = async(object) => {
-    const array = [];
-    const keys = Object.keys(object);
-    keys.forEach(key => {
-        const user = {id:key}
-        array.push(Object.assign(user,object[key]))
-    })
-    return array;
-}
+// const transformRoleResponse = async(object) => {
+//     const array = [];
+//     const keys = Object.keys(object);
+//     keys.forEach(key => {
+//         const user = {id:key}
+//         array.push(Object.assign(user,object[key]))
+//     })
+//     return array;
+// }
 
 export const getData = () => dispatch => {
     let niz = [];
@@ -179,28 +171,22 @@ export const getData = () => dispatch => {
             niz = transformDataResponse(snapshot.val())
             dispatch(receiveGetData(niz));
         });
-        // .catch(error => {
-        //     dispatch(getDataError());
-        // })
 };
 
 export const loginUser = (email, password) => dispatch => {
-    let role = '';
     dispatch(requestLogin());
     myFirebase
         .auth()
         .signInWithEmailAndPassword(email,password)
         .then(user => {
             dispatch(receiveLogin(user));
-            getUserRole(user.user.uid);
         })
         .catch(error => {
-          //  console.log(error.message);
             dispatch(loginError(error))}
         );
 };
 
-const getUserRole = userId => {
+export const getRole = userId => dispatch => {
      myFirebase
             .database()
             .ref('users')
@@ -208,16 +194,16 @@ const getUserRole = userId => {
             .equalTo(userId)
             .once('value')
             .then( snapshot => {
-               console.log(transformRoleResponse(snapshot.val()));
+               dispatch(getRoleSuccess(Object.values(snapshot.val())[0].role))
             }
         )
             .catch(error => {
-                console.log('There was an error while fetching role ' + error);
+                dispatch(getRoleError());
+                //console.log('There was an error while fetching role ' + error);
             })
 };
 
 export const logoutUser = () => dispatch => {
-    
     dispatch(requestLogout());
     myFirebase
         .auth()
@@ -257,16 +243,19 @@ export const addUser = (email, password, role) => dispatch => {
         });
 };
 
-const addUserRole = (userId, role) => {
+const addUserRole = (userId, role) => dispatch => {
+    dispatch(requestAddUserRole());
     myFirebase
     .database()
     .ref('users')
     .push({'userId':userId, 'role': role})
     .then( () => 
-        console.log('Successfully added role.')
+        dispatch(receiveAddUserRole())
+        //console.log('Successfully added role.')
    )
     .catch(error => {
-        console.log('There was an error while adding role ' + error);
+        dispatch(addUserRoleError());
+        //console.log('There was an error while adding role ' + error);
     })
 };
 

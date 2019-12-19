@@ -3,28 +3,23 @@ import NavBar from '../NavBar/NavBar';
 import { connect } from 'react-redux';
 import { logoutUser } from '../../actions';
 import { getData } from '../../actions';
+import { getRole } from '../../actions';
 import DataListItem from "../DataListItem/DataListItem";
 import './Home.css';
 
 
 class Home extends Component {
 
-state = {
-  array: []
-}
-
  async componentDidMount(){
    await this.getData();
+   //console.log(this.props.user.user.uid);
+   await this.getRole();
 }
 
   renderData(){
     const { data } = this.props;
     return data.map((item,key) => 
-      
-      //<li key={key}>{item.nesto}</li>
-      
       <DataListItem key={key} id={item.id} item={item}/>
-  
     );
   }
 
@@ -49,6 +44,10 @@ state = {
     dispatch(getData());
   } 
 
+  getRole = async() => {
+    const { dispatch, user } = this.props;
+    dispatch(getRole(user.user.uid));
+  }
 
 }
 function mapStateToProps(state){

@@ -2,35 +2,24 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import './NavBar.css';
 import {
-    Link
+    Link 
   } from "react-router-dom";
 
 class NavBar extends Component {
+  
+  render(){ 
+    const { role } = this.props;
 
-   // as {this.props.user.email}
-   render(){ 
-   
     return (
 
 
         <div>
           <ul>
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="/users">Users</Link>
-            </li>
-            <li>
-              <Link to="/beers">Beers</Link>
-            </li>
-            <li><p>You are logged in</p></li>
-            <li className="right">
-              <Link to="/login" onClick={() => this.props.logoutUser()} className="active">Sign out</Link>
-            </li>
+            <li><Link to="/">Home</Link></li> 
+            { role === 'admin' && <li><Link to="/users">Users</Link></li> }
+            { role === 'admin' && <li><Link to="/beers">Beers</Link></li> }
+            <li className="right"><Link to="/login" onClick={() => this.props.logoutUser()} className="active">Sign out</Link></li>
           </ul>
-
-        
         </div>
   
     )}
@@ -39,7 +28,7 @@ class NavBar extends Component {
 
 function mapStateToProps(state){
   return {
-     
+     role: state.auth.role
   }
 }
 
