@@ -59,11 +59,6 @@ constructor(props){
            }
         }
 
-        
-
-
-    
-    
     handlePassword(value){
         this.setState({password:value});
     }

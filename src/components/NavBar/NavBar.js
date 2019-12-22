@@ -15,7 +15,7 @@ class NavBar extends Component {
 
         <div>
           <ul>
-            <li><Link to="/">Home</Link></li> 
+            <li><Link to="/">Orders</Link></li> 
             { role === 'admin' && <li><Link to="/users">Users</Link></li> }
             { role === 'admin' && <li><Link to="/beers">Beers</Link></li> }
             <li className="right"><Link to="/login" onClick={() => this.props.logoutUser()} className="active">Sign out</Link></li>

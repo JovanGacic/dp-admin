@@ -26,7 +26,7 @@ function App(props) {
         />
         <Route path="/login" component={Login} />
         {/* <ProtectedRoute isAuthenticated={isAuthenticated} exact path="/beers" component={Beers}/> */}
-        <ProtectedRoute isAuthenticated={isAuthenticated} exact path="/users" component={Users}/>
+        <ProtectedRoute isAuthenticated={isAuthenticated} isVerifying={isVerifying} exact path="/users" component={Users}/>
     </Switch>
     </Router>
   );

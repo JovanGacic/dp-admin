@@ -9,6 +9,7 @@
    overflow: hidden;
    width: 80%;
    margin-top: 10px;
+   transition: width 1s;
 }
 
 .anchor {
@@ -19,6 +20,10 @@
     cursor: pointer;
 }
 
-.anchor :hover {
-  opacity: 1;
+.anchor:hover {
+   opacity: 1;
+}
+
+.listItem:hover{
+  width: 90%;
 }
