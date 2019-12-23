@@ -11,12 +11,15 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import SingleOrder from "../SingleOrder/SingleOrder";
 
 const useStyles = makeStyles({
   card: {
     maxWidth: 500,
-    margin: 'auto'
+    margin: 'auto',
+    marginTop: '10px'
   },
+  
 });
 
 export default function DataListItem (props) {
@@ -57,7 +60,7 @@ export default function DataListItem (props) {
     }
 
     return (
-
+     
         <Card className={classes.card}>
             <CardActionArea>
               {/* <CardMedia
@@ -92,26 +95,12 @@ export default function DataListItem (props) {
           >
             <DialogTitle id="scroll-dialog-title">{props.id}</DialogTitle>
             <DialogContent dividers={scroll === 'paper'}>
-               {<div >
-                  <img style={{width:"200px", height:"200px"}}
-                    src={orders[0].imgUrl}
-                    alt={orders[0].name}
-                  />  X {orders[0].quantity}
-               </div>}
+               <SingleOrder orders={orders}/>
               <DialogContentText
                 id="scroll-dialog-description"
                 ref={descriptionElementRef}
                 tabIndex={-1}
               >
-                
-                {/* {[...new Array(50)]
-                  .map(
-                    () => `Cras mattis consectetur purus sit amet fermentum.
-                    Cras justo odio, dapibus ac facilisis in, egestas eget quam.
-                    Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-                    Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`,
-                                  )
-                  .join('\n')} */}
               </DialogContentText>
             </DialogContent>
             <DialogActions>
@@ -125,5 +114,6 @@ export default function DataListItem (props) {
       </Dialog>
         </CardActions>
       </Card>
+    
     );
 }
