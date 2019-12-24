@@ -26,9 +26,11 @@ export default (
         isAuthenticated: false,
         user: {},
         registrationError: false,
-        registrationErrorMsg: '',
+        registrationErrorMsg: '',        
+        isRegistering: false,
         data: [],
-        role: ''
+        role: '',
+   
     },
     action
      ) => {
@@ -87,18 +89,21 @@ export default (
             }
         case ADD_USER_REQUEST:
             return {
-                ...state
+                ...state,
+                isRegistering: true
             }
         case ADD_USER_SUCCESS:
             return {
                 ...state,
                 registrationError: false,
+                isRegistering: false
             }
         case ADD_USER_FAILURE:
             return {
                 ...state,
                 registrationError: true,
-                registrationErrorMsg: action.error.message
+                registrationErrorMsg: action.error.message,
+                isRegistering: false
             }
         case GET_DATA_REQUEST:
             return {

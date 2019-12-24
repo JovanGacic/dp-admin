@@ -3,35 +3,43 @@ import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
+import FormLabel from '@material-ui/core/FormLabel';
 import "./Users.css";
-
 import Navbar from '../NavBar/NavBar';
 import { logoutUser, addUser } from '../../actions';
 
 
+
+ 
+
 class Users extends Component {
 constructor(props){
     super(props);
- 
     this.validatePassword = this.validatePassword.bind(this);
-    
+
 }
 
     state = {
         email:'',
         password:'',
         repeatedPassword: '',
-        role:''
+        role:'',
+        passwordsMatch: true,
+        errMsg: ''
     }
 
     render(){
-        const { registrationError,registrationErrorMsg,role} = this.props;
+        const { registrationError,registrationErrorMsg,role,isRegistering} = this.props;
         if ( role === 'admin') {
             return (
                 <div>
                     <Navbar logoutUser={this.handleLogout}/>
                     <div className="register">     
-                        <label>Add a new user</label>
+                        <h4>Add a new user</h4>
                         <div className="textField">
                             <TextField id="outlined-basic1" label="Email" variant="outlined" onChange={event => this.handleEmail(event.target.value)}/>
                         </div>
@@ -41,8 +49,16 @@ constructor(props){
                         <div className="textField">    
                             <TextField id="outlined-basic3" label="Repeat password" type="password" variant="outlined" onChange={event => this.handleRepeatPassword(event.target.value)}/>
                         </div>
-                        <div>
-                        <label><input className="radio" type="radio" value="admin" 
+                        {this.state.passwordsMatch ? null : this.state.errMsg}
+                        <div className="radio">
+                        <FormControl  component="fieldset">
+                            <FormLabel component="legend">Role</FormLabel>
+                            <RadioGroup  aria-label="Role" name="role" value={this.state.role} onChange={(event) => this.handleRole(event.target.value)}>
+                            <FormControlLabel value="admin" control={<Radio color="primary" />} label="Admin" />
+                            <FormControlLabel value="sales" control={<Radio color="primary" />} label="Sales" />
+                            </RadioGroup>
+                        </FormControl>
+                        {/* <label><input className="radio" type="radio" value="admin" 
                                         checked={this.state.role === 'admin'}
                                         onChange={event => this.handleRole(event.target.value)}
                                         />
@@ -53,9 +69,12 @@ constructor(props){
                                         onChange={event => this.handleRole(event.target.value)}
                                         />
                                         Sales
-                                        </label>
+                                        </label> */}
+                                        
                         </div>
-                        <Button onClick={() => this.addUserAndRole(this.state.email, this.state.password, this.state.role)}>Register</Button>
+                        <Button className="loginBtn" onClick={() => this.addUserAndRole(this.state.email, this.state.password, this.state.role)} variant="contained" color="primary">
+                            {isRegistering === true ? <CircularProgress color="inherit" size={24}/> : 'Register'}
+                        </Button>
                         { registrationError ? 
                         <label>{registrationErrorMsg}</label>
                         : null
@@ -81,8 +100,9 @@ constructor(props){
     }
 
     validatePassword(){
+        
         if(this.state.password !== this.state.repeatedPassword){
-            this.setState({registrationError:'Provided passwords do not match.'});
+            this.setState({ passwordsMatch: false, errMsg: 'Provided passwords do not match.'});
             return -1;
         }
         else
@@ -99,9 +119,12 @@ constructor(props){
       } 
 
     addUserAndRole = (email, password, role) => {
-        const { dispatch } = this.props;
-        dispatch(addUser(email, password, role));
-      
+
+        if (this.validatePassword() === 0 ) {
+            const { dispatch } = this.props;
+            dispatch(addUser(email, password, role));
+        }
+        else console.log('juhuuuu');
       } 
 }
 
@@ -109,7 +132,8 @@ function mapStateToProps(state){
     return {
         registrationError: state.auth.registrationError,
         registrationErrorMsg: state.auth.registrationErrorMsg,
-        role: state.auth.role
+        role: state.auth.role,
+        isRegistering: state.auth.isRegistering
     };
 }
 

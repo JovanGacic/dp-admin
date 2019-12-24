@@ -1,10 +1,22 @@
 .register {
     margin: auto;
-    width: 300px;
+    width: 30%;
+    height: 40%;
     text-align: center;
+    margin-top: 5%;
+    border: 1px solid rgb(189, 209, 214);
+    border-radius: 5px;
 }
 
 .textField {
     margin-top: 10px;
 }
 
+.radio {
+    margin-top: 10px;
+}
+
+.loginBtn {
+    margin:auto;
+    width: 50%;
+}
