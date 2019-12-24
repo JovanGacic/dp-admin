@@ -19,13 +19,29 @@ const useStyles = makeStyles({
     margin: 'auto',
     marginTop: '10px'
   },
+  info: {
+    backgroundColor: '#e6e6ff',
+    textAlign: 'center',
+    borderRadius: '5px'
+  },
+  timestamp: {
+    backgroundColor: '#e6e6ff'
+  }
   
 });
 
 export default function DataListItem (props) {
     const classes = useStyles();
-
+    let orderPrice = 0;
     const orders = transformObjectToArray(props.item.order);
+
+    orders.map((item,key) => {
+        return orderPrice = orderPrice + item.price * item.quantity;
+    });
+   
+    var t = new Date(props.item.timeStamp);
+   
+    // var formattedDate = t.format("dd.mm.yyyy hh:MM:ss");
 
     const [open, setOpen] = React.useState(false);
     const [scroll, setScroll] = React.useState('paper');
@@ -72,20 +88,32 @@ export default function DataListItem (props) {
               /> */}
               <CardContent>
                 <Typography gutterBottom variant="h5" component="h2">
-                  Order ID: {props.id}
+                  ID porudžbine: <b>{props.id}</b>
                 </Typography>
                 <Typography variant="body2" color="textSecondary" component="p">
-                  City: {props.item.city}
+                  Grad: {props.item.city}
                 </Typography>
                 <Typography variant="body2" color="textSecondary" component="p">
-                  Address: {props.item.street} {props.item.streetNumber}/{props.item.apartment} {props.item.door === '' ? null : '(door: ' + props.item.door +')'}
+                  Adresa: {props.item.street} {props.item.streetNumber}/{props.item.apartment} {props.item.door === '' ? null : 'Ulaz: ' + props.item.door} {props.item.floor === '' ? null : ' Sprat: ' + props.item.floor}
                 </Typography>
+                <Typography variant="body1" color="textPrimary" component="p">
+                  Datum i vreme: <b>{props.item.dateOfDelivery}</b> - <b>{props.item.timeOfDelivery}</b>
+                </Typography>
+                <br></br>
+                <Typography variant="body1" color="textPrimary" component="p">
+                  Ukupno za naplatu: {orderPrice}
+                </Typography>
+
               </CardContent>
             </CardActionArea>
         <CardActions>
           <Button size="small" color="primary" onClick={handleClickOpen('paper')}>
-            Order details
+            Detalji porudžbine
           </Button>
+          <Typography className={classes.timestamp}>
+            Vreme porudžbine: {t.getDate()}-{t.getMonth()}-{t.getFullYear()} {t.getHours()}:{t.getMinutes()}:{t.getSeconds()}
+          </Typography>
+
           <Dialog
             open={open}
             onClose={handleClose}
@@ -93,16 +121,27 @@ export default function DataListItem (props) {
             aria-labelledby="scroll-dialog-title"
             aria-describedby="scroll-dialog-description"
           >
-            <DialogTitle id="scroll-dialog-title">{props.id}</DialogTitle>
+            <DialogTitle id="scroll-dialog-title"><b>{props.id}</b></DialogTitle>
             <DialogContent dividers={scroll === 'paper'}>
-               <SingleOrder orders={orders}/>
+               <SingleOrder orders={orders} orderPrice={orderPrice}/>
               <DialogContentText
                 id="scroll-dialog-description"
                 ref={descriptionElementRef}
                 tabIndex={-1}
               >
               </DialogContentText>
+              <div className={classes.info}>
+                Poručilac: <b>{props.item.firstName + ' ' + props.item.lastName}</b><br></br>
+                Adresa: <b>{props.item.street} {props.item.streetNumber}/{props.item.apartment} {props.item.door === '' ? null : 'Ulaz: ' + props.item.door} {props.item.floor === '' ? null : ' Sprat: ' + props.item.floor}</b><br></br>
+                Ukupna cena porudžbine: <b>{orderPrice} RSD</b><br></br>
+                Datum i vreme dostave: <b>{props.item.dateOfDelivery} - {props.item.timeOfDelivery}</b>
+                <br></br>
+                Kontakt: <b>{props.item.phoneNumber}</b>
+                </div>
+                
+                
             </DialogContent>
+            
             <DialogActions>
               <Button onClick={handleClose} color="primary">
                 Cancel
@@ -112,6 +151,7 @@ export default function DataListItem (props) {
               </Button>
             </DialogActions>
       </Dialog>
+      
         </CardActions>
       </Card>
     

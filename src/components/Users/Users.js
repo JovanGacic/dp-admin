@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import "./Users.css";
 
 import Navbar from '../NavBar/NavBar';
@@ -29,9 +32,15 @@ constructor(props){
                     <Navbar logoutUser={this.handleLogout}/>
                     <div className="register">     
                         <label>Add a new user</label>
-                        <input type="text" placeholder="Email" onChange={event => this.handleEmail(event.target.value)}/>
-                        <input type="password" placeholder="Password" onChange={event => this.handlePassword(event.target.value)}/>
-                        <input type="password" placeholder="Repeat password" onChange={event => this.handleRepeatPassword(event.target.value)}/>
+                        <div className="textField">
+                            <TextField id="outlined-basic1" label="Email" variant="outlined" onChange={event => this.handleEmail(event.target.value)}/>
+                        </div>
+                        <div className="textField">
+                            <TextField id="outlined-basic2" label="Password" type="password" variant="outlined" onChange={event => this.handlePassword(event.target.value)}/>
+                        </div>
+                        <div className="textField">    
+                            <TextField id="outlined-basic3" label="Repeat password" type="password" variant="outlined" onChange={event => this.handleRepeatPassword(event.target.value)}/>
+                        </div>
                         <div>
                         <label><input className="radio" type="radio" value="admin" 
                                         checked={this.state.role === 'admin'}
@@ -46,7 +55,7 @@ constructor(props){
                                         Sales
                                         </label>
                         </div>
-                        <button onClick={() => this.addUserAndRole(this.state.email, this.state.password, this.state.role)}>Register</button>
+                        <Button onClick={() => this.addUserAndRole(this.state.email, this.state.password, this.state.role)}>Register</Button>
                         { registrationError ? 
                         <label>{registrationErrorMsg}</label>
                         : null
