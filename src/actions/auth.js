@@ -31,6 +31,9 @@ export const ADD_BEER_REQUEST = 'ADD_BEER_REQUEST';
 export const ADD_BEER_SUCCESS = 'ADD_BEER_SUCCESS';
 export const ADD_BEER_ERROR = 'ADD_BEER_ERROR';
 
+export const GET_ALL_USERS_REQUEST = 'GET_ALL_USERS_REQUEST';
+export const GET_ALL_USERS_SUCCESS = 'GET_ALL_USERS_SUCCESS';
+export const GET_ALL_USERS_ERROR = 'GET_ALL_USERS_ERROR';
 
 const requestGetData = () => {
     return {
@@ -165,6 +168,26 @@ const addBeerError = () => {
     }
 }
 
+const getAllUsersRequest = () => {
+    return {
+        type: GET_ALL_USERS_REQUEST
+    }
+}
+
+const getAllUsersSuccess= users => {
+    return {
+        type: GET_ALL_USERS_SUCCESS,
+        users
+    }
+}
+
+const getAllUsersError = error => {
+    return {
+        type: GET_ALL_USERS_REQUEST,
+        error
+    }
+}
+
 
 const transformDataResponse = object => {
     const array = [];
@@ -291,26 +314,30 @@ export const addUser = (email, password, role) => dispatch => {
         .createUserWithEmailAndPassword(email, password)
         .then( user => {
             dispatch(receiveAddUser());
-            addUserRole(user.user.uid,role);
+            addUserRole(user.user.uid,email,role,dispatch);
             }
         )
         .catch(error => {
             dispatch(addUserError(error));
+            toast.error('There was an error while adding user ' + error.msg);
         });
 };
 
-const addUserRole = (userId, role) => dispatch => {
+function addUserRole(userId, email, role,dispatch) {
     dispatch(requestAddUserRole());
     myFirebase
     .database()
     .ref('users')
-    .push({'userId':userId, 'role': role})
-    .then( () => 
-        dispatch(receiveAddUserRole())
+    .push({'userId':userId, 'email': email, 'role': role, 'status': 'active'})
+    .then( () => {
+        dispatch(receiveAddUserRole());
+        toast.success("Successfully added a new user!");
         //console.log('Successfully added role.')
+    }
    )
     .catch(error => {
         dispatch(addUserRoleError());
+        toast.error('There was an error while adding role ' + error.msg);
         //console.log('There was an error while adding role ' + error);
     })
 
@@ -318,7 +345,6 @@ const addUserRole = (userId, role) => dispatch => {
 
 export const addBeer = (name, price, volume, file) => dispatch => {
     dispatch(addBeerRequest());
-    console.log(file);
     // Create a root reference
     var storageRef = myFirebase.storage().ref();
  
@@ -339,7 +365,7 @@ export const addBeer = (name, price, volume, file) => dispatch => {
     })
     .catch( e => {
         dispatch(addBeerError(e.msg));
-        toast.error(e.msg);
+        toast.error('There was an error while adding beer ' + e.msg);
         //console.log(e)
     });
  
@@ -357,8 +383,20 @@ function addBeerDetails(name, price, volume, url) {
    )
     .catch(error => 
         //console.log('There was an error while adding beer details ' + error)
-        toast.error(error.msg)
+        toast.error('There was an error while adding beer details ' + error.msg)
     )
 };
 
+export const getAllUsers = () => dispatch => {
+    let niz = [];
+    dispatch(getAllUsersRequest());
+    myFirebase
+        .database()
+        .ref('/users')
+        .on('value',
+        snapshot => {
+            niz = transformDataResponse(snapshot.val())
+            dispatch(getAllUsersSuccess(niz));
+        });
+}
 

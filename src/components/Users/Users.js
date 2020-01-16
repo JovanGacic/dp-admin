@@ -10,16 +10,20 @@ import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 import "./Users.css";
 import Navbar from '../NavBar/NavBar';
-import { logoutUser, addUser } from '../../actions';
+import { logoutUser, addUser, getAllUsers } from '../../actions';
+import { ToastContainer, toast } from 'react-toastify';
 
 
 class Users extends Component {
 constructor(props){
     super(props);
     this.validatePassword = this.validatePassword.bind(this);
-
+    
 }
 
+async componentDidMount(){
+    await this.getAllUsers();
+}
     state = {
         email:'',
         password:'',
@@ -36,7 +40,8 @@ constructor(props){
                 isRegistering,
                 isDeactivating,
                 deactivationError,
-                deactivationErrorMsg
+                deactivationErrorMsg,
+                users
             } = this.props;
 
         if ( role === 'admin') {
@@ -64,20 +69,27 @@ constructor(props){
                             </RadioGroup>
                         </FormControl>
                         </div>
-                        <Button className="registerBtn" onClick={() => this.addUserAndRole(this.state.email, this.state.password, this.state.role)} variant="contained" color="primary">
-                            {isRegistering === true ? <CircularProgress color="inherit" size={24}/> : 'Register'}
-                        </Button>
-                        { registrationError ? 
-                        <label style={{color:"red"}}>{registrationErrorMsg}</label>
-                        : null
-                        }
+                        <div className="btnContainer">
+                            <Button className="registerBtn" onClick={() => this.addUserAndRole(this.state.email, this.state.password, this.state.role)} variant="contained" color="primary">
+                                {isRegistering === true ? <CircularProgress color="inherit" size={24}/> : 'Register'}
+                            </Button>
+                        </div>
+                        <div>
+                            { registrationError ? 
+                            <label style={{color:"red"}}>{registrationErrorMsg}</label>
+                            : null
+                            }
+                        </div>
                     </div>
 
                     <div className="deactivateUser">
-                        <h4>Deactivate a user</h4>
+                        <h4>Activate/deactivate a user</h4>
                         <div className="textField">
                              <TextField id="email" label="Email to deactivate" variant="outlined" onChange={event => this.handlePickedUser(event.target.value)}/>
                         </div>
+                        <Button className="activateBtn" onClick={() => console.log('activate user')} variant="contained" color="primary">
+                            {isDeactivating === true ? <CircularProgress color="inherit" size={24}/> : 'Activate user'}
+                        </Button>
                         <Button className="deactivateBtn" onClick={() => console.log('deactivate user')} variant="contained" color="primary">
                             {isDeactivating === true ? <CircularProgress color="inherit" size={24}/> : 'Deactivate user'}
                         </Button>
@@ -86,7 +98,7 @@ constructor(props){
                         : null
                         }
                     </div>
-
+                    <ToastContainer position={toast.POSITION.BOTTOM_RIGHT} />
                 </div>
             )}
            else {
@@ -131,6 +143,11 @@ constructor(props){
             dispatch(addUser(email, password, role));
         }
       } 
+
+    getAllUsers = () => {
+        const { dispatch } = this.props;
+        dispatch(getAllUsers());
+    }
 }
 
 function mapStateToProps(state){
@@ -141,7 +158,8 @@ function mapStateToProps(state){
         isRegistering: state.auth.isRegistering,
         isDeactivating: state.auth.isDeactivating,
         deactivationError: state.auth.deactivationError,
-        deactivationErrorMsg: state.auth.deactivationErrorMsg
+        deactivationErrorMsg: state.auth.deactivationErrorMsg,
+        users: state.auth.users
     };
 }
 

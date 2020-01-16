@@ -11,7 +11,9 @@ import { LOGIN_REQUEST,
          ADD_USER_FAILURE,
          GET_DATA_REQUEST,
          GET_DATA_SUCCESS,
-         GET_ROLE_SUCCESS
+         GET_ROLE_SUCCESS,
+         GET_ALL_USERS_REQUEST,
+         GET_ALL_USERS_SUCCESS
         } from '../actions/';
 
 export default (
@@ -30,7 +32,8 @@ export default (
         isRegistering: false,
         data: [],
         role: '',
-        userStatus: ''
+        userStatus: '',
+        users: []
    
     },
     action
@@ -120,6 +123,15 @@ export default (
             return {
                 ...state,
                 role: action.role
+            }
+        case GET_ALL_USERS_REQUEST:
+            return {
+                ...state
+            }
+        case GET_ALL_USERS_SUCCESS:
+            return {
+                ...state,
+                users: action.users
             }
         default:
             return state;

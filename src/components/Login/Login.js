@@ -24,7 +24,7 @@ import {
     
     render(){
         const { loginError, isLoggingIn, isAuthenticated, loginErrorMessage, userStatus } = this.props;
-        console.log(userStatus);
+    
         if (isAuthenticated && userStatus === 'active') {
             return <Redirect to="/" />
         } 
