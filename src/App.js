@@ -2,6 +2,7 @@ import React from 'react';
 import Login from './components/Login/Login';
 import Home from './components/Home/Home';
 import Users from './components/Users/Users';
+import Beer from './components/Beer/Beer';
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import {
     BrowserRouter as Router,
@@ -25,7 +26,7 @@ function App(props) {
           isVerifying={isVerifying}
         />
         <Route path="/login" component={Login} />
-        {/* <ProtectedRoute isAuthenticated={isAuthenticated} exact path="/beers" component={Beers}/> */}
+        <ProtectedRoute isAuthenticated={isAuthenticated} exact path="/beers" component={Beer}/>
         <ProtectedRoute isAuthenticated={isAuthenticated} isVerifying={isVerifying} exact path="/users" component={Users}/>
     </Switch>
     </Router>

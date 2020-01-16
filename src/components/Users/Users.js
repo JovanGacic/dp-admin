@@ -13,9 +13,6 @@ import Navbar from '../NavBar/NavBar';
 import { logoutUser, addUser } from '../../actions';
 
 
-
- 
-
 class Users extends Component {
 constructor(props){
     super(props);
@@ -29,11 +26,16 @@ constructor(props){
         repeatedPassword: '',
         role:'',
         passwordsMatch: true,
-        errMsg: ''
+        errMsg: '',
     }
 
     render(){
-        const { registrationError,registrationErrorMsg,role,isRegistering} = this.props;
+        const { registrationError,
+                registrationErrorMsg,
+                role,
+                isRegistering,
+            } = this.props;
+
         if ( role === 'admin') {
             return (
                 <div>
@@ -58,28 +60,29 @@ constructor(props){
                             <FormControlLabel value="sales" control={<Radio color="primary" />} label="Sales" />
                             </RadioGroup>
                         </FormControl>
-                        {/* <label><input className="radio" type="radio" value="admin" 
-                                        checked={this.state.role === 'admin'}
-                                        onChange={event => this.handleRole(event.target.value)}
-                                        />
-                                        Admin
-                                        </label>
-                        <label><input className="radio" type="radio" value="sales"
-                                        checked={this.state.role === 'sales'}
-                                        onChange={event => this.handleRole(event.target.value)}
-                                        />
-                                        Sales
-                                        </label> */}
-                                        
                         </div>
                         <Button className="loginBtn" onClick={() => this.addUserAndRole(this.state.email, this.state.password, this.state.role)} variant="contained" color="primary">
                             {isRegistering === true ? <CircularProgress color="inherit" size={24}/> : 'Register'}
                         </Button>
                         { registrationError ? 
-                        <label>{registrationErrorMsg}</label>
+                        <label style={{color:"red"}}>{registrationErrorMsg}</label>
                         : null
                         }
                     </div>
+
+                    {/* <div className="deactivateUser">
+                        <div className="textField">
+                             <TextField id="outlined-basic1" label="Email to deactivate" variant="outlined" onChange={event => this.handlePickedUser(event.target.value)}/>
+                        </div>
+                        <Button className="deactivateUser" onClick={() => console.log('deactivate user')} variant="contained" color="primary">
+                            {isDeactivating === true ? <CircularProgress color="inherit" size={24}/> : 'Deactivate user'}
+                        </Button>
+                        { deactivationError ? 
+                        <label style={{color:"red"}}>{deactivationErrorMsg}</label>
+                        : null
+                        }
+                    </div> */}
+
                 </div>
             )}
            else {
@@ -119,12 +122,10 @@ constructor(props){
       } 
 
     addUserAndRole = (email, password, role) => {
-
         if (this.validatePassword() === 0 ) {
             const { dispatch } = this.props;
             dispatch(addUser(email, password, role));
         }
-        else console.log('juhuuuu');
       } 
 }
 

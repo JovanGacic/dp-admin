@@ -25,6 +25,10 @@ export const GET_DATA_SUCCESS = 'GET_DATA_SUCCESS';
 export const GET_ROLE_SUCCESS = 'GET_ROLE_SUCCESS';
 export const GET_ROLE_ERROR = 'GET_ROLE_ERROR';
 
+export const ADD_BEER_REQUEST = 'ADD_BEER_REQUEST';
+export const ADD_BEER_SUCCESS = 'ADD_BEER_SUCCESS';
+export const ADD_BEER_ERROR = 'ADD_BEER_ERROR';
+
 
 const requestGetData = () => {
     return {
@@ -139,6 +143,25 @@ const getRoleError = error => {
         error
     }
 }
+
+const addBeerRequest = () => {
+    return {
+        type: ADD_BEER_REQUEST
+    }
+}
+ 
+const addBeerSuccess = () => {
+    return {
+        type: ADD_BEER_SUCCESS
+    }
+}
+ 
+const addBeerError = () => {
+    return {
+        type: ADD_BEER_ERROR
+    }
+}
+
 
 const transformDataResponse = object => {
     const array = [];
@@ -257,5 +280,48 @@ const addUserRole = (userId, role) => dispatch => {
         dispatch(addUserRoleError());
         //console.log('There was an error while adding role ' + error);
     })
+
 };
+
+export const addBeer = (name, price, volume, file) => dispatch => {
+    dispatch(addBeerRequest());
+    console.log(file);
+    // Create a root reference
+    var storageRef = myFirebase.storage().ref();
+ 
+    // Create a reference
+    var imgRef = storageRef.child('beer-cans/' + file.name);
+    //myFirebase.storage().ref().put(file)
+    imgRef.put(file)
+    .then(snapshot => {
+        //this.addBeerDetails(name, price, volume);
+        storageRef.child('beer-cans/' + file.name).getDownloadURL()
+        .then(url => {
+            //console.log(url);
+            addBeerDetails(name, price, volume, url)
+            dispatch(addBeerSuccess());
+        })
+        
+    })
+    .catch( e => {
+        dispatch(addBeerError(e.msg));
+        console.log(e)
+    });
+ 
+ 
+}
+ 
+function addBeerDetails(name, price, volume, url) {
+    myFirebase
+    .database()
+    .ref('beers/cans')
+    .push({'name':name, 'price': price, 'volume':volume, 'downloadUrl':url})
+    .then( () => 
+        console.log('Successfully added beer details.')
+   )
+    .catch(error => 
+        console.log('There was an error while adding beer details ' + error)
+    )
+};
+
 
