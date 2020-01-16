@@ -5,6 +5,7 @@ import { logoutUser } from '../../actions';
 import { getData } from '../../actions';
 import { getRole } from '../../actions';
 import DataListItem from "../DataListItem/DataListItem";
+import { ToastContainer, toast } from 'react-toastify';
 import './Home.css';
 
 
@@ -30,6 +31,7 @@ class Home extends Component {
           <NavBar logoutUser={this.handleLogout}/>
           <h2>Orders</h2>
           <div>{this.renderData()}</div>
+          
         </div>
         );
   }

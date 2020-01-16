@@ -30,6 +30,7 @@ export default (
         isRegistering: false,
         data: [],
         role: '',
+        userStatus: ''
    
     },
     action
@@ -46,7 +47,8 @@ export default (
                 ...state,
                 isLoggingIn: false,
                 isAuthenticated: true,
-                user: action.user
+                user: action.user,
+                userStatus: action.userStatus
             };
         case LOGIN_FAILURE:
             return {

@@ -1,4 +1,6 @@
 import { myFirebase } from '../firebaseConfig';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
@@ -67,10 +69,11 @@ const requestLogin = () => {
     };
 };
 
-const receiveLogin = user => {
+const receiveLogin = (user, userStatus) => {
     return {
         type: LOGIN_SUCCESS,
-        user
+        user,
+        userStatus
     };
 };
 
@@ -202,12 +205,40 @@ export const loginUser = (email, password) => dispatch => {
         .auth()
         .signInWithEmailAndPassword(email,password)
         .then(user => {
-            dispatch(receiveLogin(user));
+            getUserStatus(user,dispatch);
         })
         .catch(error => {
             dispatch(loginError(error))}
         );
 };
+
+ 
+function getUserStatus(user,dispatch){
+    myFirebase
+    .database()
+    .ref('users')
+    .orderByChild('userId')
+    .equalTo(user.user.uid)
+    .once('value')
+            .then( snapshot => { 
+        //dispatch(receiveLogin(user, Object.values(snapshot.val())[0].status));
+          checkIfUserActive(user, Object.values(snapshot.val())[0].status, dispatch)
+            })
+    .catch(error => 
+        //console.log('There was an error while adding beer details ' + error)
+        dispatch(loginError(error))
+    )
+};
+
+function checkIfUserActive(user, status, dispatch){
+    if (status === 'active') {
+        dispatch(receiveLogin(user, status));
+    }
+    else{
+        var error = {code: 212, message : 'This user is not active.'};
+        dispatch(loginError(error));
+    }
+}
 
 export const getRole = userId => dispatch => {
      myFirebase
@@ -233,9 +264,11 @@ export const logoutUser = () => dispatch => {
         .signOut()
         .then(() => {
             dispatch(receiveLogout());
+            toast.success("Successfully logged out!")
         })
         .catch(error => {
             dispatch(logoutError());
+            toast.error(error.msg)
         });
 };
 
@@ -300,12 +333,14 @@ export const addBeer = (name, price, volume, file) => dispatch => {
             //console.log(url);
             addBeerDetails(name, price, volume, url)
             dispatch(addBeerSuccess());
+            
         })
         
     })
     .catch( e => {
         dispatch(addBeerError(e.msg));
-        console.log(e)
+        toast.error(e.msg);
+        //console.log(e)
     });
  
  
@@ -317,10 +352,12 @@ function addBeerDetails(name, price, volume, url) {
     .ref('beers/cans')
     .push({'name':name, 'price': price, 'volume':volume, 'downloadUrl':url})
     .then( () => 
-        console.log('Successfully added beer details.')
+        //console.log('Successfully added beer details.')
+        toast.success("Successfully added new beer!")
    )
     .catch(error => 
-        console.log('There was an error while adding beer details ' + error)
+        //console.log('There was an error while adding beer details ' + error)
+        toast.error(error.msg)
     )
 };
 

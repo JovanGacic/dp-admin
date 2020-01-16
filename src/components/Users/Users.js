@@ -34,6 +34,9 @@ constructor(props){
                 registrationErrorMsg,
                 role,
                 isRegistering,
+                isDeactivating,
+                deactivationError,
+                deactivationErrorMsg
             } = this.props;
 
         if ( role === 'admin') {
@@ -61,7 +64,7 @@ constructor(props){
                             </RadioGroup>
                         </FormControl>
                         </div>
-                        <Button className="loginBtn" onClick={() => this.addUserAndRole(this.state.email, this.state.password, this.state.role)} variant="contained" color="primary">
+                        <Button className="registerBtn" onClick={() => this.addUserAndRole(this.state.email, this.state.password, this.state.role)} variant="contained" color="primary">
                             {isRegistering === true ? <CircularProgress color="inherit" size={24}/> : 'Register'}
                         </Button>
                         { registrationError ? 
@@ -70,18 +73,19 @@ constructor(props){
                         }
                     </div>
 
-                    {/* <div className="deactivateUser">
+                    <div className="deactivateUser">
+                        <h4>Deactivate a user</h4>
                         <div className="textField">
-                             <TextField id="outlined-basic1" label="Email to deactivate" variant="outlined" onChange={event => this.handlePickedUser(event.target.value)}/>
+                             <TextField id="email" label="Email to deactivate" variant="outlined" onChange={event => this.handlePickedUser(event.target.value)}/>
                         </div>
-                        <Button className="deactivateUser" onClick={() => console.log('deactivate user')} variant="contained" color="primary">
+                        <Button className="deactivateBtn" onClick={() => console.log('deactivate user')} variant="contained" color="primary">
                             {isDeactivating === true ? <CircularProgress color="inherit" size={24}/> : 'Deactivate user'}
                         </Button>
                         { deactivationError ? 
                         <label style={{color:"red"}}>{deactivationErrorMsg}</label>
                         : null
                         }
-                    </div> */}
+                    </div>
 
                 </div>
             )}
@@ -134,7 +138,10 @@ function mapStateToProps(state){
         registrationError: state.auth.registrationError,
         registrationErrorMsg: state.auth.registrationErrorMsg,
         role: state.auth.role,
-        isRegistering: state.auth.isRegistering
+        isRegistering: state.auth.isRegistering,
+        isDeactivating: state.auth.isDeactivating,
+        deactivationError: state.auth.deactivationError,
+        deactivationErrorMsg: state.auth.deactivationErrorMsg
     };
 }
 

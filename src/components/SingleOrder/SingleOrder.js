@@ -15,16 +15,16 @@ export default class SingleOrder extends React.Component {
                 height="200"
                 width="200"
                 image={item.imgUrl}
-                title="Contemplative Reptile"
+                title="Order"
               />
                 {/* <img style={{width:"200px", height:"200px"}}
                 src={item.imgUrl}
                 alt={item.name}
                 />    */}
             </div>
-        <div className="info">Kolicina: {item.quantity} <br></br>
-                              Cena: {item.price} RSD
-        </div>
+            <div className="info">Količina: {item.quantity} <br></br>
+                                  Cena: {item.price} RSD
+            </div>
         
         </div>  
     );

@@ -16,7 +16,22 @@
     margin-top: 10px;
 }
 
-.loginBtn {
+.registerBtn {
     margin:auto;
+    width: 50%;
+    margin-bottom: 30px;
+}
+
+.deactivateUser{
+    margin: auto;
+    width: 30%;
+    /* height: 40%; */
+    text-align: center;
+    margin-top: 5%;
+    border: 1px solid rgb(189, 209, 214);
+    border-radius: 5px;
+}
+
+.deactivateBtn {
     width: 50%;
 }

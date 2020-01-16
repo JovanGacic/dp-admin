@@ -5,6 +5,7 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 //import CircularProgress from '@material-ui/core/CircularProgress';
 import NavBar from '../NavBar/NavBar';
+import { ToastContainer, toast } from 'react-toastify';
 import './Beer.css';
 
 class Beer extends Component {
@@ -23,27 +24,34 @@ class Beer extends Component {
 
     render() {
         return (
-          <div>
-              <NavBar logoutUser={this.handleLogout}/>
-          
-          <form noValidate autoComplete="off">
+         <div>
+            <NavBar logoutUser={this.handleLogout}/>
+            <div className="container">
+            <h4>Add a new beer</h4>
             
-            <div className="textField">
-                <TextField id="name" label="Naziv piva" variant="outlined" onChange={event => this.handleName(event.target.value)} />
-                <TextField id="volume" label="Zapremina piva" variant="outlined" onChange={event => this.handleVolume(event.target.value)} />
-                <TextField id="price" label="Cena piva" variant="outlined" onChange={event => this.handlePrice(event.target.value)} />
                 
+                <div className="textField">
+                    <TextField id="name" label="Naziv piva" variant="outlined" onChange={event => this.handleName(event.target.value)} />
+                </div>
+                <div className="textField">
+                    <TextField id="volume" label="Zapremina piva" variant="outlined" onChange={event => this.handleVolume(event.target.value)} />
+                </div>
+                <div className="textField">
+                    <TextField id="price" label="Cena piva" variant="outlined" onChange={event => this.handlePrice(event.target.value)} />
+                </div>
+                <div className="img">
+                    <input type='file' name="uploadedimage" accept="image/png, .jpeg, .jpg, image/gif" value={this.state.file}
+                        onChange={this.onChange}></input>
+                </div>
+                <div className="btn">
+                    <Button className='btn' variant="contained" color="primary" onClick={this.addBeer}>Add beer</Button>
+                    {/* {this.state.files.map(x => 
+                        <div className="file-preview" onClick={this.removeFile.bind(this, x)}>{x.name}</div>
+                        )} */}
+                </div>
+          
+                <ToastContainer position={toast.POSITION.BOTTOM_RIGHT} />
             </div>
-            <div>
-                <input type='file' name="uploadedimage" accept="image/png, .jpeg, .jpg, image/gif" value={this.state.file}
-                    onChange={this.onChange}></input>
-                <Button className='btn' variant="contained" color="primary" onClick={this.addBeer}>Add beer</Button>
-                {/* {this.state.files.map(x => 
-                    <div className="file-preview" onClick={this.removeFile.bind(this, x)}>{x.name}</div>
-                    )} */}
-            </div>
-           </form>
-           
            </div>
           );
     }
