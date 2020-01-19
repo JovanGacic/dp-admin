@@ -10,7 +10,8 @@ import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 import "./Users.css";
 import Navbar from '../NavBar/NavBar';
-import { logoutUser, addUser, getAllUsers } from '../../actions';
+import { logoutUser, addUser, getAllUsers, setUserActive, setUserInactive } from '../../actions';
+import User from './User';
 import { ToastContainer, toast } from 'react-toastify';
 
 
@@ -31,7 +32,15 @@ async componentDidMount(){
         role:'',
         passwordsMatch: true,
         errMsg: '',
+      
     }
+
+    renderUsers(){
+        const { users } = this.props;
+        return users.map((item,key) =>          
+            <User key={key} id={item.id} item={item} activateUser={() => this.setUserActive(item)} deactivateUser={() => this.setUserInactive(item)}/>
+        );
+      }
 
     render(){
         const { registrationError,
@@ -83,7 +92,7 @@ async componentDidMount(){
                     </div>
 
                     <div className="deactivateUser">
-                        <h4>Activate/deactivate a user</h4>
+                        {/* <h4>Activate/deactivate a user</h4>
                         <div className="textField">
                              <TextField id="email" label="Email to deactivate" variant="outlined" onChange={event => this.handlePickedUser(event.target.value)}/>
                         </div>
@@ -96,7 +105,9 @@ async componentDidMount(){
                         { deactivationError ? 
                         <label style={{color:"red"}}>{deactivationErrorMsg}</label>
                         : null
-                        }
+                        } */}
+                        {this.renderUsers()}
+
                     </div>
                     <ToastContainer position={toast.POSITION.BOTTOM_RIGHT} />
                 </div>
@@ -147,6 +158,16 @@ async componentDidMount(){
     getAllUsers = () => {
         const { dispatch } = this.props;
         dispatch(getAllUsers());
+    }
+
+    setUserActive = user => {
+        const { dispatch } = this.props;
+        dispatch(setUserActive(user));
+    }
+
+    setUserInactive = user => {
+        const { dispatch } = this.props;
+        dispatch(setUserInactive(user));
     }
 }
 

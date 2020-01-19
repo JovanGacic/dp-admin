@@ -35,6 +35,15 @@ export const GET_ALL_USERS_REQUEST = 'GET_ALL_USERS_REQUEST';
 export const GET_ALL_USERS_SUCCESS = 'GET_ALL_USERS_SUCCESS';
 export const GET_ALL_USERS_ERROR = 'GET_ALL_USERS_ERROR';
 
+export const SET_USER_ACTIVE_REQUEST = 'SET_USER_ACTIVE_REQUEST';
+export const SET_USER_ACTIVE_SUCCESS = 'SET_USER_ACTIVE_SUCCESS';
+export const SET_USER_ACTIVE_ERROR = 'SET_USER_ACTIVE_ERROR';
+
+export const SET_USER_INACTIVE_REQUEST = 'SET_USER_INACTIVE_REQUEST';
+export const SET_USER_INACTIVE_SUCCESS = 'SET_USER_INACTIVE_SUCCESS';
+export const SET_USER_INACTIVE_ERROR = 'SET_USER_INACTIVE_ERROR';
+
+
 const requestGetData = () => {
     return {
         type: GET_DATA_REQUEST
@@ -187,6 +196,48 @@ const getAllUsersError = error => {
         error
     }
 }
+
+const setUserActiveRequest = () => {
+    return {
+        type: SET_USER_ACTIVE_REQUEST
+    }
+}
+
+const setUserInactiveRequest = () => {
+    return {
+        type: SET_USER_INACTIVE_REQUEST
+    }
+}
+
+const setUserActiveSuccess = status => {
+    return {
+        type: SET_USER_ACTIVE_SUCCESS,
+        status
+    }
+}
+
+const setUserInactiveSuccess = status => {
+    return {
+        type: SET_USER_INACTIVE_SUCCESS,
+        status
+    }
+}
+
+const setUserActiveError = error => {
+    return {
+        type: SET_USER_ACTIVE_ERROR,
+        error
+    }
+}
+
+const setUserInactiveError = error => {
+    return {
+        type: SET_USER_INACTIVE_ERROR,
+        error
+    }
+}
+
+
 
 
 const transformDataResponse = object => {
@@ -400,3 +451,50 @@ export const getAllUsers = () => dispatch => {
         });
 }
 
+export const setUserActive = user => dispatch => {
+    var postData = {
+        userId: user.id,
+        email: user.email,
+        role: user.role,
+        status: 'active'
+      };
+
+    var updates = {};
+    updates['/users/' + user.id] = postData;
+    
+    dispatch(setUserActiveRequest());
+    myFirebase
+    .database()
+    .ref()
+    .update(updates)
+    .then(()=> {
+        console.log('uspesno izmenjen status');
+    })
+    .catch(error => {
+        console.log(error.message);
+    });
+}
+
+export const setUserInactive = user => dispatch => {
+    var postData = {
+        userId: user.id,
+        email: user.email,
+        role: user.role,
+        status: 'inactive'
+      };
+
+    var updates = {};
+    updates['/users/' + user.id] = postData;
+    
+    dispatch(setUserActiveRequest());
+    myFirebase
+    .database()
+    .ref()
+    .update(updates)
+    .then(()=> {
+        console.log('uspesno deaktiviran status');
+    })
+    .catch(error => {
+        console.log(error.message);
+    });
+}
