@@ -129,6 +129,7 @@ const verifySuccess = () => {
 const requestAddUser = () => {
     return {
         type: ADD_USER_REQUEST
+
     };
 };
 
@@ -342,7 +343,7 @@ export const logoutUser = () => dispatch => {
         })
         .catch(error => {
             dispatch(logoutError());
-            toast.error(error.msg)
+            toast.error(error.message)
         });
 };
 
@@ -370,7 +371,7 @@ export const addUser = (email, password, role) => dispatch => {
         )
         .catch(error => {
             dispatch(addUserError(error));
-            toast.error('There was an error while adding user ' + error.msg);
+            toast.error('There was an error while adding user ' + error.message);
         });
 };
 
@@ -388,7 +389,7 @@ function addUserRole(userId, email, role,dispatch) {
    )
     .catch(error => {
         dispatch(addUserRoleError());
-        toast.error('There was an error while adding role ' + error.msg);
+        toast.error('There was an error while adding role ' + error.message);
         //console.log('There was an error while adding role ' + error);
     })
 
@@ -415,8 +416,8 @@ export const addBeer = (name, price, volume, file) => dispatch => {
         
     })
     .catch( e => {
-        dispatch(addBeerError(e.msg));
-        toast.error('There was an error while adding beer ' + e.msg);
+        dispatch(addBeerError(e.message));
+        toast.error('There was an error while adding beer ' + e.message);
         //console.log(e)
     });
  
@@ -434,7 +435,7 @@ function addBeerDetails(name, price, volume, url) {
    )
     .catch(error => 
         //console.log('There was an error while adding beer details ' + error)
-        toast.error('There was an error while adding beer details ' + error.msg)
+        toast.error('There was an error while adding beer details ' + error.message)
     )
 };
 
@@ -468,10 +469,12 @@ export const setUserActive = user => dispatch => {
     .ref()
     .update(updates)
     .then(()=> {
-        console.log('uspesno izmenjen status');
+        toast.success("Successfully activated user " + user.email + '.');
+        //console.log('uspesno izmenjen status');
     })
     .catch(error => {
-        console.log(error.message);
+        toast.error("There was an error while activating user." + error.message);
+        //console.log(error.message);
     });
 }
 
@@ -492,9 +495,11 @@ export const setUserInactive = user => dispatch => {
     .ref()
     .update(updates)
     .then(()=> {
-        console.log('uspesno deaktiviran status');
+        toast.success("Successfully deactivated user " + user.email + '.');
+        //console.log('uspesno deaktiviran status');
     })
     .catch(error => {
-        console.log(error.message);
+        toast.error("There was an error while deactivating user." + error.message);
+        //console.log(error.message);
     });
 }

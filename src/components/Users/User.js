@@ -6,7 +6,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import { setUserActive } from '../../actions';
+import CircularProgress from '@material-ui/core/CircularProgress'; 
 
 
 const useStyles = makeStyles({
@@ -40,14 +40,14 @@ export default function User (props) {
 
               </CardContent>
             </CardActionArea>
-        <CardActions>
+        <CardActions >
           {props.item.status === 'inactive' ?
-          <Button size="small" color="primary" onClick={props.activateUser}>
+          <Button fullWidth size="medium" color="primary" onClick={props.activateUser}>
             Activate
           </Button> 
           : null}
           {props.item.status === 'active' ?
-          <Button size="small" color="secondary" onClick={props.deactivateUser}>
+          <Button fullWidth size="medium" color="secondary" onClick={props.deactivateUser}>
             Deactivate
           </Button>
           : null}

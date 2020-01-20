@@ -13,7 +13,13 @@ import { LOGIN_REQUEST,
          GET_DATA_SUCCESS,
          GET_ROLE_SUCCESS,
          GET_ALL_USERS_REQUEST,
-         GET_ALL_USERS_SUCCESS
+         GET_ALL_USERS_SUCCESS,
+         SET_USER_ACTIVE_REQUEST,
+         SET_USER_ACTIVE_SUCCESS,
+         SET_USER_ACTIVE_ERROR,
+         SET_USER_INACTIVE_REQUEST,
+         SET_USER_INACTIVE_SUCCESS,
+         SET_USER_INACTIVE_ERROR
         } from '../actions/';
 
 export default (
@@ -33,7 +39,8 @@ export default (
         data: [],
         role: '',
         userStatus: '',
-        users: []
+        users: [],
+        isChangingStatus: false
    
     },
     action
@@ -132,6 +139,36 @@ export default (
             return {
                 ...state,
                 users: action.users
+            }
+        case  SET_USER_ACTIVE_REQUEST:
+            return {
+                ...state,
+                isChangingStatus: true
+            }
+        case SET_USER_ACTIVE_SUCCESS:
+            return {
+                ...state,
+                isChangingStatus: false
+            }
+        case SET_USER_ACTIVE_ERROR:
+            return {
+                ...state,
+                isChangingStatus: false
+            }
+        case SET_USER_INACTIVE_REQUEST:
+            return {
+                ...state,
+                isChangingStatus: true
+            }
+        case SET_USER_INACTIVE_SUCCESS:
+            return {
+                ...state,
+                isChangingStatus: false
+            }
+        case SET_USER_INACTIVE_ERROR:
+            return {
+                ...state,
+                isChangingStatus: false
             }
         default:
             return state;

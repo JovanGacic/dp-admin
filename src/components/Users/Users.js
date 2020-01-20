@@ -36,9 +36,9 @@ async componentDidMount(){
     }
 
     renderUsers(){
-        const { users } = this.props;
+        const { users, isChangingStatus} = this.props;
         return users.map((item,key) =>          
-            <User key={key} id={item.id} item={item} activateUser={() => this.setUserActive(item)} deactivateUser={() => this.setUserInactive(item)}/>
+            <User key={key} id={item.id} item={item} activateUser={() => this.setUserActive(item)} deactivateUser={() => this.setUserInactive(item) } isChangingStatus={isChangingStatus}/>
         );
       }
 
@@ -46,11 +46,7 @@ async componentDidMount(){
         const { registrationError,
                 registrationErrorMsg,
                 role,
-                isRegistering,
-                isDeactivating,
-                deactivationError,
-                deactivationErrorMsg,
-                users
+                isRegistering
             } = this.props;
 
         if ( role === 'admin') {
@@ -92,6 +88,7 @@ async componentDidMount(){
                     </div>
 
                     <div className="deactivateUser">
+                        <h4>Activate/Deactivate user</h4>
                         {/* <h4>Activate/deactivate a user</h4>
                         <div className="textField">
                              <TextField id="email" label="Email to deactivate" variant="outlined" onChange={event => this.handlePickedUser(event.target.value)}/>
@@ -177,9 +174,7 @@ function mapStateToProps(state){
         registrationErrorMsg: state.auth.registrationErrorMsg,
         role: state.auth.role,
         isRegistering: state.auth.isRegistering,
-        isDeactivating: state.auth.isDeactivating,
-        deactivationError: state.auth.deactivationError,
-        deactivationErrorMsg: state.auth.deactivationErrorMsg,
+        isChangingStatus: state.auth.isChangingStatus,
         users: state.auth.users
     };
 }
