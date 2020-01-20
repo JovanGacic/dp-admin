@@ -453,7 +453,7 @@ export const getAllUsers = () => dispatch => {
 
 export const setUserActive = user => dispatch => {
     var postData = {
-        userId: user.id,
+        userId: user.userId,
         email: user.email,
         role: user.role,
         status: 'active'
@@ -477,7 +477,7 @@ export const setUserActive = user => dispatch => {
 
 export const setUserInactive = user => dispatch => {
     var postData = {
-        userId: user.id,
+        userId: user.userId,
         email: user.email,
         role: user.role,
         status: 'inactive'
