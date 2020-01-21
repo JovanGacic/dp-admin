@@ -191,12 +191,12 @@ const getAllUsersSuccess= users => {
     }
 }
 
-const getAllUsersError = error => {
-    return {
-        type: GET_ALL_USERS_REQUEST,
-        error
-    }
-}
+// const getAllUsersError = error => {
+//     return {
+//         type: GET_ALL_USERS_REQUEST,
+//         error
+//     }
+// }
 
 const setUserActiveRequest = () => {
     return {
@@ -204,39 +204,39 @@ const setUserActiveRequest = () => {
     }
 }
 
-const setUserInactiveRequest = () => {
-    return {
-        type: SET_USER_INACTIVE_REQUEST
-    }
-}
+// const setUserInactiveRequest = () => {
+//     return {
+//         type: SET_USER_INACTIVE_REQUEST
+//     }
+// }
 
-const setUserActiveSuccess = status => {
-    return {
-        type: SET_USER_ACTIVE_SUCCESS,
-        status
-    }
-}
+// const setUserActiveSuccess = status => {
+//     return {
+//         type: SET_USER_ACTIVE_SUCCESS,
+//         status
+//     }
+// }
 
-const setUserInactiveSuccess = status => {
-    return {
-        type: SET_USER_INACTIVE_SUCCESS,
-        status
-    }
-}
+// const setUserInactiveSuccess = status => {
+//     return {
+//         type: SET_USER_INACTIVE_SUCCESS,
+//         status
+//     }
+// }
 
-const setUserActiveError = error => {
-    return {
-        type: SET_USER_ACTIVE_ERROR,
-        error
-    }
-}
+// const setUserActiveError = error => {
+//     return {
+//         type: SET_USER_ACTIVE_ERROR,
+//         error
+//     }
+// }
 
-const setUserInactiveError = error => {
-    return {
-        type: SET_USER_INACTIVE_ERROR,
-        error
-    }
-}
+// const setUserInactiveError = error => {
+//     return {
+//         type: SET_USER_INACTIVE_ERROR,
+//         error
+//     }
+// }
 
 
 
@@ -284,6 +284,7 @@ export const loginUser = (email, password) => dispatch => {
         })
         .catch(error => {
             dispatch(loginError(error))}
+
         );
 };
 
@@ -308,6 +309,7 @@ function getUserStatus(user,dispatch){
 function checkIfUserActive(user, status, dispatch){
     if (status === 'active') {
         dispatch(receiveLogin(user, status));
+        toast.success("Successfully logged in!")
     }
     else{
         var error = {code: 212, message : 'This user is not active.'};

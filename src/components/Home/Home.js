@@ -31,7 +31,7 @@ class Home extends Component {
           <NavBar logoutUser={this.handleLogout}/>
           <h2>Orders</h2>
           <div>{this.renderData()}</div>
-          
+          <ToastContainer position={toast.POSITION.BOTTOM_RIGHT} />
         </div>
         );
   }

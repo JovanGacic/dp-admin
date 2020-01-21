@@ -89,22 +89,7 @@ async componentDidMount(){
 
                     <div className="deactivateUser">
                         <h4>Activate/Deactivate user</h4>
-                        {/* <h4>Activate/deactivate a user</h4>
-                        <div className="textField">
-                             <TextField id="email" label="Email to deactivate" variant="outlined" onChange={event => this.handlePickedUser(event.target.value)}/>
-                        </div>
-                        <Button className="activateBtn" onClick={() => console.log('activate user')} variant="contained" color="primary">
-                            {isDeactivating === true ? <CircularProgress color="inherit" size={24}/> : 'Activate user'}
-                        </Button>
-                        <Button className="deactivateBtn" onClick={() => console.log('deactivate user')} variant="contained" color="primary">
-                            {isDeactivating === true ? <CircularProgress color="inherit" size={24}/> : 'Deactivate user'}
-                        </Button>
-                        { deactivationError ? 
-                        <label style={{color:"red"}}>{deactivationErrorMsg}</label>
-                        : null
-                        } */}
                         {this.renderUsers()}
-
                     </div>
                     <ToastContainer position={toast.POSITION.BOTTOM_RIGHT} />
                 </div>
@@ -156,6 +141,8 @@ async componentDidMount(){
         const { dispatch } = this.props;
         dispatch(getAllUsers());
     }
+
+
 
     setUserActive = user => {
         const { dispatch } = this.props;
