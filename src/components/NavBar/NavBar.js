@@ -1,28 +1,25 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import './NavBar.css';
-import {
-    Link 
-  } from "react-router-dom";
-
-
-  import { fade, makeStyles } from '@material-ui/core/styles';
-  import AppBar from '@material-ui/core/AppBar';
-  import Toolbar from '@material-ui/core/Toolbar';
-  import IconButton from '@material-ui/core/IconButton';
-  import Typography from '@material-ui/core/Typography';
-  import InputBase from '@material-ui/core/InputBase';
-  import Badge from '@material-ui/core/Badge';
-  import MenuItem from '@material-ui/core/MenuItem';
-  import Menu from '@material-ui/core/Menu';
-  import MenuIcon from '@material-ui/icons/Menu';
-  import SearchIcon from '@material-ui/icons/Search';
-  import AccountCircle from '@material-ui/icons/AccountCircle';
-  import MailIcon from '@material-ui/icons/Mail';
-  import NotificationsIcon from '@material-ui/icons/Notifications';
-  import MoreIcon from '@material-ui/icons/MoreVert';
-  import HomeIcon from '@material-ui/icons/Home';
-  import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircle';
+import { Link  } from "react-router-dom";
+import { fade, makeStyles } from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import IconButton from '@material-ui/core/IconButton';
+import Typography from '@material-ui/core/Typography';
+import InputBase from '@material-ui/core/InputBase';
+import Badge from '@material-ui/core/Badge';
+import MenuItem from '@material-ui/core/MenuItem';
+import Menu from '@material-ui/core/Menu';
+import SearchIcon from '@material-ui/icons/Search';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import MailIcon from '@material-ui/icons/Mail';
+import NotificationsIcon from '@material-ui/icons/Notifications';
+import MoreIcon from '@material-ui/icons/MoreVert';
+import HomeIcon from '@material-ui/icons/Home';
+import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircle';
+import LocalDrinkIcon from '@material-ui/icons/LocalDrink';
+import Tooltip from '@material-ui/core/Tooltip';
 
   const useStyles = makeStyles(theme => ({
     grow: {
@@ -91,7 +88,7 @@ import {
 function NavBar(props) {
   
  // render(){ 
-     const { role } = props;
+    //  const { role } = props;
 
     // return (
 
@@ -201,30 +198,20 @@ function NavBar(props) {
             >
               <MenuIcon />
             </IconButton> */}
-            <IconButton
-              edge="start"
-              className={classes.menuButton}
-              color="inherit"
-              aria-label="open drawer"
-              
-            >
-             
+            <Tooltip title="Home">
+              <IconButton
+                edge="start"
+                className={classes.menuButton}
+                color="inherit"
+                aria-label="open drawer"
+                to='/' component={Link}
+              >
                 <HomeIcon />
-             
-            </IconButton>
-            <IconButton
-              edge="start"
-              className={classes.menuButton}
-              color="inherit"
-              aria-label="open drawer"
-              
-            >
+              </IconButton>
+            </Tooltip>
             
-                <SupervisedUserCircleIcon component={Link} to="/users" value="users"/>
-            
-            </IconButton>
             <Typography className={classes.title} variant="h6" noWrap>
-              Daj Pivo - Admin
+              DP - Admin
             </Typography>
             
             <div className={classes.search}>
@@ -240,6 +227,31 @@ function NavBar(props) {
                 inputProps={{ 'aria-label': 'search' }}
               />
             </div>
+
+            <Tooltip title="Users">
+              <IconButton
+                edge="start"
+                className={classes.menuButton}
+                color="inherit"
+                aria-label="open drawer"
+                to='/users' 
+                component={Link}
+              >
+                  <SupervisedUserCircleIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Beers">
+              <IconButton 
+                edge="start"
+                className={classes.menuButton}
+                color="inherit"
+                aria-label="open drawer"
+                to='/beers' 
+                component={Link}
+              >
+               <LocalDrinkIcon/>
+               </IconButton>
+            </Tooltip>
             
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
@@ -289,7 +301,7 @@ function NavBar(props) {
 
 function mapStateToProps(state){
   return {
-     role: state.auth.role
+     //role: state.auth.role
   }
 }
 

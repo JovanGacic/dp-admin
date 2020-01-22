@@ -30,7 +30,10 @@ class Home extends Component {
         <div className="home">
           <NavBar logoutUser={this.handleLogout}/>
           <h2>Orders</h2>
-          <div>{this.renderData()}</div>
+          <div className="body">
+            <div className="lmnt">Search orders</div>
+            <div className="lmnt">{this.renderData()}</div>
+          </div>
           <ToastContainer position={toast.POSITION.BOTTOM_RIGHT} />
         </div>
         );
