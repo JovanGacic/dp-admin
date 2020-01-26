@@ -17,9 +17,9 @@ import { LOGIN_REQUEST,
          SET_USER_ACTIVE_REQUEST,
          SET_USER_ACTIVE_SUCCESS,
          SET_USER_ACTIVE_ERROR,
-         SET_USER_INACTIVE_REQUEST,
-         SET_USER_INACTIVE_SUCCESS,
-         SET_USER_INACTIVE_ERROR
+         GET_BEERS_LIST_REQUEST,
+         GET_BEERS_LIST_SUCCESS,
+         GET_BEERS_LIST_ERROR
         } from '../actions/';
 
 export default (
@@ -155,20 +155,17 @@ export default (
                 ...state,
                 isChangingStatus: false
             }
-        case SET_USER_INACTIVE_REQUEST:
+        case GET_BEERS_LIST_REQUEST:
             return {
-                ...state,
-                isChangingStatus: true
+                ...state
             }
-        case SET_USER_INACTIVE_SUCCESS:
+        case GET_BEERS_LIST_SUCCESS:
             return {
-                ...state,
-                isChangingStatus: false
+                ...state
             }
-        case SET_USER_INACTIVE_ERROR:
+        case GET_BEERS_LIST_ERROR:
             return {
-                ...state,
-                isChangingStatus: false
+                ...state
             }
         default:
             return state;

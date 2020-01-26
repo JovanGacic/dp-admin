@@ -39,9 +39,9 @@ export const SET_USER_ACTIVE_REQUEST = 'SET_USER_ACTIVE_REQUEST';
 export const SET_USER_ACTIVE_SUCCESS = 'SET_USER_ACTIVE_SUCCESS';
 export const SET_USER_ACTIVE_ERROR = 'SET_USER_ACTIVE_ERROR';
 
-export const SET_USER_INACTIVE_REQUEST = 'SET_USER_INACTIVE_REQUEST';
-export const SET_USER_INACTIVE_SUCCESS = 'SET_USER_INACTIVE_SUCCESS';
-export const SET_USER_INACTIVE_ERROR = 'SET_USER_INACTIVE_ERROR';
+export const GET_BEERS_LIST_REQUEST = 'GET_BEERS_LIST_REQUEST';
+export const GET_BEERS_LIST_SUCCESS = 'GET_BEERS_LIST_SUCCESS';
+export const GET_BEERS_LIST_ERROR = 'GET_BEERS_LIST_ERROR';
 
 
 const requestGetData = () => {
@@ -204,39 +204,26 @@ const setUserActiveRequest = () => {
     }
 }
 
-// const setUserInactiveRequest = () => {
-//     return {
-//         type: SET_USER_INACTIVE_REQUEST
-//     }
-// }
+const getAllBeersRequest = () => {
+    return {
+        type: GET_BEERS_LIST_REQUEST
+    }
+}
 
-// const setUserActiveSuccess = status => {
-//     return {
-//         type: SET_USER_ACTIVE_SUCCESS,
-//         status
-//     }
-// }
+const getAllBeersSuccess = status => {
+    return {
+        type: GET_BEERS_LIST_SUCCESS,
+        status
+    }
+}
 
-// const setUserInactiveSuccess = status => {
-//     return {
-//         type: SET_USER_INACTIVE_SUCCESS,
-//         status
-//     }
-// }
+const getAllBeersError = error => {
+    return {
+        type: GET_BEERS_LIST_ERROR,
+        error
+    }
+}
 
-// const setUserActiveError = error => {
-//     return {
-//         type: SET_USER_ACTIVE_ERROR,
-//         error
-//     }
-// }
-
-// const setUserInactiveError = error => {
-//     return {
-//         type: SET_USER_INACTIVE_ERROR,
-//         error
-//     }
-// }
 
 
 
@@ -504,4 +491,17 @@ export const setUserInactive = user => dispatch => {
         toast.error("There was an error while deactivating user." + error.message);
         //console.log(error.message);
     });
+}
+
+export const getAllBeers = () => dispatch => {
+    let niz = [];
+    dispatch(getAllBeersRequest());
+    myFirebase
+     .database()
+     .ref('/beers')
+     .once('value')
+     .then((snapshot) => {
+        niz = transformDataResponse(snapshot.val())
+        dispatch(getAllBeersSuccess(niz));
+     })
 }

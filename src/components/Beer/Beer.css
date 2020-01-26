@@ -24,3 +24,14 @@
 .img {
     margin-top: 20px;
 }
+
+.search {
+    text-align: center;
+    margin: auto;
+    margin-top: 20px;
+    border: 1px solid rgb(189, 209, 214);
+    border-radius: 5px;
+    width: 50%;
+    padding: 10px;
+    
+}

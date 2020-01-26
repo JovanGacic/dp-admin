@@ -49,10 +49,16 @@ class Beer extends Component {
                         <div className="file-preview" onClick={this.removeFile.bind(this, x)}>{x.name}</div>
                         )} */}
                 </div>
-          
+                
+            
                 <ToastContainer position={toast.POSITION.BOTTOM_RIGHT} />
             </div>
-           </div>
+            <div className="search">
+            <h4>Edit beer</h4>
+                <TextField id="outlined-basic" variant="outlined" value={this.state.searchString} label="Pretraga" onChange={event => this.onChange(event.target.value)} />
+            </div>
+            
+        </div>
           );
     }
   

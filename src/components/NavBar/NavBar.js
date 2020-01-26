@@ -130,19 +130,20 @@ function NavBar(props) {
     const menuId = 'primary-search-account-menu';
     
     const renderMenu = (
-  
-      <Menu
-        anchorEl={anchorEl}
-        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-        id={menuId}
-        keepMounted
-        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-        open={isMenuOpen}
-        onClose={handleMenuClose}
-      >
-        <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-        <MenuItem onClick={props.logoutUser}>Log out</MenuItem>
-      </Menu>
+      <Tooltip title="User options">
+        <Menu
+          anchorEl={anchorEl}
+          anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+          id={menuId}
+          keepMounted
+          transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+          open={isMenuOpen}
+          onClose={handleMenuClose}
+        >
+          <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+          <MenuItem onClick={props.logoutUser}>Log out</MenuItem>
+        </Menu>
+      </Tooltip>
     );
   
     const mobileMenuId = 'primary-search-account-menu-mobile';

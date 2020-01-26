@@ -2,6 +2,6 @@
     text-align: center;
 }
 
-.lmnt {
-    display: inline-block;
+.MuiList-root {
+    background-color: white;
 }

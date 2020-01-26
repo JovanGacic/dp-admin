@@ -17,6 +17,10 @@ class Home extends Component {
    await this.getRole();
 }
 
+state = {
+  searchString: ''
+}
+
   renderData(){
     const { data } = this.props;
     return data.map((item,key) => 
@@ -31,13 +35,16 @@ class Home extends Component {
           <NavBar logoutUser={this.handleLogout}/>
           <h2>Orders</h2>
           <div className="body">
-            <div className="lmnt">Search orders</div>
             <div className="lmnt">{this.renderData()}</div>
           </div>
           <ToastContainer position={toast.POSITION.BOTTOM_RIGHT} />
         </div>
         );
   }
+
+  onChange(value){
+    this.setState({searchString:value});
+} 
 
   handleLogout = () => {
     const { dispatch } = this.props;
