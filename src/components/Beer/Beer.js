@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { logoutUser, addBeer } from '../../actions';
+import { logoutUser, addBeer, getAllBeers } from '../../actions';
 import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 //import CircularProgress from '@material-ui/core/CircularProgress';
 import NavBar from '../NavBar/NavBar';
+import SingleBeer from '../SingleBeer/SingleBeer';
 import { ToastContainer, toast } from 'react-toastify';
 import './Beer.css';
 
@@ -15,11 +16,17 @@ class Beer extends Component {
         this.onChange = this.onChange.bind(this);
     }
 
+    async componentDidMount(){
+        await this.getAllBeers();
+    }
+
     state = {
         name: '',
         price: '',
         volume: '',
-        files: []
+        files: [],
+        beers: [],
+        searchString: ''
     }
 
     render() {
@@ -55,7 +62,9 @@ class Beer extends Component {
             </div>
             <div className="search">
             <h4>Edit beer</h4>
-                <TextField id="outlined-basic" variant="outlined" value={this.state.searchString} label="Pretraga" onChange={event => this.onChange(event.target.value)} />
+                <TextField id="outlined-basic" variant="outlined" value={this.state.searchString} label="Pretraga" onChange={event => this.onSearch(event.target.value)} />       
+                    {this.renderBeers().filter(
+                            e => e.props.item.name.toLowerCase().indexOf(this.state.searchString.toLowerCase()) > -1) }
             </div>
             
         </div>
@@ -96,12 +105,29 @@ class Beer extends Component {
    //   removeFile(f) {
    //        this.setState({ files: this.state.files.filter(x => x !== f) }); 
    //   }
-   
+
+   getAllBeers = () => {
+    const { dispatch } = this.props;
+    dispatch(getAllBeers());
+  } 
+
+  onSearch(e) {
+    this.setState({searchString:e});
+  }
+
+  renderBeers(){
+    
+    const { beers } = this.props;
+
+    return beers.map((item) => 
+       <SingleBeer key={item.id} id={item.id} item={item}/>
+    );
+  }
 }
 
 function mapStateToProps(state){
     return {
-      
+        beers: state.auth.beers
     }
   }
   

@@ -210,10 +210,10 @@ const getAllBeersRequest = () => {
     }
 }
 
-const getAllBeersSuccess = status => {
+const getAllBeersSuccess = beers => {
     return {
         type: GET_BEERS_LIST_SUCCESS,
-        status
+        beers
     }
 }
 
@@ -223,8 +223,6 @@ const getAllBeersError = error => {
         error
     }
 }
-
-
 
 
 
@@ -498,10 +496,13 @@ export const getAllBeers = () => dispatch => {
     dispatch(getAllBeersRequest());
     myFirebase
      .database()
-     .ref('/beers')
+     .ref('/beers/cans')
      .once('value')
      .then((snapshot) => {
         niz = transformDataResponse(snapshot.val())
         dispatch(getAllBeersSuccess(niz));
      })
+     .catch((error) => 
+        dispatch(getAllBeersError(error.message))
+     )
 }

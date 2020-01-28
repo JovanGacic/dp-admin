@@ -40,7 +40,8 @@ export default (
         role: '',
         userStatus: '',
         users: [],
-        isChangingStatus: false
+        isChangingStatus: false,
+        beers: []
    
     },
     action
@@ -161,7 +162,8 @@ export default (
             }
         case GET_BEERS_LIST_SUCCESS:
             return {
-                ...state
+                ...state,
+                beers: action.beers
             }
         case GET_BEERS_LIST_ERROR:
             return {
