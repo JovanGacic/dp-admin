@@ -19,7 +19,13 @@ import { LOGIN_REQUEST,
          SET_USER_ACTIVE_ERROR,
          GET_BEERS_LIST_REQUEST,
          GET_BEERS_LIST_SUCCESS,
-         GET_BEERS_LIST_ERROR
+         GET_BEERS_LIST_ERROR,
+         DELETE_BEER_REQUEST,
+         DELETE_BEER_SUCCESS,
+         DELETE_BEER_ERROR,
+         UPDATE_BEER_REQUEST,
+         UPDATE_BEER_SUCCESS,
+         UPDATE_BEER_ERROR
         } from '../actions/';
 
 export default (
@@ -169,6 +175,31 @@ export default (
             return {
                 ...state
             }
+        case DELETE_BEER_REQUEST:
+            return {
+                ...state
+            }
+        case DELETE_BEER_SUCCESS:
+            return {
+                ...state
+            }
+        case DELETE_BEER_ERROR:
+            return {
+                ...state
+            }
+        case UPDATE_BEER_REQUEST:
+            return {
+                ...state
+            }
+        case UPDATE_BEER_SUCCESS:
+            return {
+                ...state
+            }
+        case UPDATE_BEER_ERROR:
+            return {
+                ...state
+            }
+        
         default:
             return state;
     };

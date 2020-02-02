@@ -4,7 +4,10 @@
     /* background-color: DodgerBlue;  */
     border: 1px solid rgb(206, 203, 203);
     border-radius: 5px;
-    margin-top: 2px;
+   
+    width: 50%;
+    margin: auto;
+    margin-top: 10px;
   }
   
   .flex-container > div {
@@ -16,3 +19,4 @@
     line-height: 75px;
     font-size: 20px;
   }
+

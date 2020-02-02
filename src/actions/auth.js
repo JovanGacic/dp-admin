@@ -43,6 +43,14 @@ export const GET_BEERS_LIST_REQUEST = 'GET_BEERS_LIST_REQUEST';
 export const GET_BEERS_LIST_SUCCESS = 'GET_BEERS_LIST_SUCCESS';
 export const GET_BEERS_LIST_ERROR = 'GET_BEERS_LIST_ERROR';
 
+export const DELETE_BEER_REQUEST = 'DELETE_BEER_REQUEST';
+export const DELETE_BEER_SUCCESS = 'DELETE_BEER_SUCCESS';
+export const DELETE_BEER_ERROR = 'DELETE_BEER_ERROR';
+
+export const UPDATE_BEER_REQUEST = 'UPDATE_BEER_REQUEST';
+export const UPDATE_BEER_SUCCESS = 'UPDATE_BEER_SUCCESS';
+export const UPDATE_BEER_ERROR = 'UPDATE_BEER_ERROR';
+
 
 const requestGetData = () => {
     return {
@@ -217,10 +225,39 @@ const getAllBeersSuccess = beers => {
     }
 }
 
-const getAllBeersError = error => {
+const deleteBeerRequest = () => {
     return {
-        type: GET_BEERS_LIST_ERROR,
-        error
+        type: DELETE_BEER_REQUEST
+    }
+}
+
+const deleteBeerSuccess = () => {
+    return {
+        type: DELETE_BEER_SUCCESS
+    }
+}
+
+const deleteBeerError = () => {
+    return {
+        type: DELETE_BEER_ERROR
+    }
+}
+
+const updateBeerRequest = () => {
+    return {
+        type: UPDATE_BEER_REQUEST
+    }
+}
+
+const updateBeerSuccess = () => {
+    return {
+        type: UPDATE_BEER_SUCCESS
+    }
+}
+
+const updateBeerError = () => {
+    return {
+        type: UPDATE_BEER_ERROR
     }
 }
 
@@ -393,7 +430,7 @@ export const addBeer = (name, price, volume, file) => dispatch => {
     imgRef.put(file)
     .then(snapshot => {
         //this.addBeerDetails(name, price, volume);
-        storageRef.child('beer-cans/' + file.name).getDownloadURL()
+        storageRef.child('beer-uploads/' + file.name).getDownloadURL()
         .then(url => {
             //console.log(url);
             addBeerDetails(name, price, volume, url)
@@ -414,7 +451,7 @@ export const addBeer = (name, price, volume, file) => dispatch => {
 function addBeerDetails(name, price, volume, url) {
     myFirebase
     .database()
-    .ref('beers/cans')
+    .ref('beers')
     .push({'name':name, 'price': price, 'volume':volume, 'downloadUrl':url})
     .then( () => 
         //console.log('Successfully added beer details.')
@@ -496,13 +533,42 @@ export const getAllBeers = () => dispatch => {
     dispatch(getAllBeersRequest());
     myFirebase
      .database()
-     .ref('/beers/cans')
-     .once('value')
-     .then((snapshot) => {
-        niz = transformDataResponse(snapshot.val())
-        dispatch(getAllBeersSuccess(niz));
+     .ref('/beers')
+     .on('value', snapshot => {
+      niz = transformDataResponse(snapshot.val())
+      dispatch(getAllBeersSuccess(niz));
      })
-     .catch((error) => 
-        dispatch(getAllBeersError(error.message))
+}
+
+export const deleteBeer = (beerId) => dispatch => {
+    dispatch(deleteBeerRequest());
+    myFirebase
+     .database()
+     .ref('/beers/' + beerId)
+     .remove()
+     .then(() =>
+        dispatch(deleteBeerSuccess())
      )
+     .catch((error) => {
+         dispatch(deleteBeerError(error.message));
+     }
+
+     )
+}
+
+export const updateBeer = (beer) => dispatch => {
+    dispatch(updateBeerRequest());
+    myFirebase
+     .database()
+     .ref('/beers/' + beer.id)
+     .update({'name':beer.name, 'price': beer.price, 'volume':beer.volume, 'downloadUrl':beer.url},  
+      function(error) {
+        if (error) {
+             console.log('update failed');
+             dispatch(updateBeerError());
+        } else {
+             console.log('update successful');
+             dispatch(updateBeerSuccess());
+        }
+      })
 }
