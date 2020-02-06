@@ -425,12 +425,12 @@ export const addBeer = (name, price, volume, file) => dispatch => {
     var storageRef = myFirebase.storage().ref();
  
     // Create a reference
-    var imgRef = storageRef.child('beer-cans/' + file.name);
+    var imgRef = storageRef.child('beers/' + file.name);
     //myFirebase.storage().ref().put(file)
     imgRef.put(file)
     .then(snapshot => {
         //this.addBeerDetails(name, price, volume);
-        storageRef.child('beer-uploads/' + file.name).getDownloadURL()
+        storageRef.child('beers/' + file.name).getDownloadURL()
         .then(url => {
             //console.log(url);
             addBeerDetails(name, price, volume, url)

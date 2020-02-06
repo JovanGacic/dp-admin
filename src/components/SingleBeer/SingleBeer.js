@@ -6,14 +6,17 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
+import TextField from '@material-ui/core/TextField';
+
+// import Dialog from '@material-ui/core/Dialog';
+// import DialogActions from '@material-ui/core/DialogActions';
+// import DialogContent from '@material-ui/core/DialogContent';
+// import DialogContentText from '@material-ui/core/DialogContentText';
+// import DialogTitle from '@material-ui/core/DialogTitle';
 import { makeStyles } from '@material-ui/core/styles';
 import './SingleBeer.css';
 
+import Modal from '../Modal/Modal';
 
 export default function SingleBeer (props) {
 
@@ -29,25 +32,14 @@ export default function SingleBeer (props) {
     }
 });
 
+
 const [open, setOpen] = React.useState(false);
 const [scroll, setScroll] = React.useState('paper');
-
-const handleClickOpen = scrollType => () => {
-  setOpen(true);
-  setScroll(scrollType);
-};
-
-const handleClose = () => {
-  setOpen(false);
-};
-
-const handleRemove = (beerId) => {
-  props.deleteBeer(beerId);
-  handleClose();
-  
-}
+const [title, setTitle] = React.useState('');
+const [content, setContent] = React.useState(null);
 
 const descriptionElementRef = React.useRef(null);
+
 React.useEffect(() => {
   if (open) {
     const { current: descriptionElement } = descriptionElementRef;
@@ -56,6 +48,44 @@ React.useEffect(() => {
     }
   }
 }, [open]);
+
+const openRemove = scrollType => {
+ setOpen(true);
+ setScroll(scrollType);
+ setTitle('Confirm delete');
+ setContent(<div>
+              Are you sure you want to delete <b>{props.item.name}</b> beer?
+          </div>);
+}
+
+const openEdit = scrollType => {
+  setOpen(true);
+  setScroll(scrollType);
+  setTitle('Confirm edit');
+  setContent(<CardContent>
+              <TextField id="outlined-basic1" label="New name" variant="outlined" onChange={event => console.log('name change')} />
+              <TextField id="outlined-basic1" label="new price" variant="outlined" onChange={event => console.log('price change')} />
+              <TextField id="outlined-basic1" label="New volume" variant="outlined" onChange={event => console.log('volume change')} />
+            </CardContent>);
+ }
+
+
+
+// const handleClickOpen = scrollType => () => {
+//   console.log('2')
+//     setOpen(true);
+//     setScroll(scrollType);
+//   };
+  
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+const handleRemove = (beerId) => {
+  props.deleteBeer(beerId);
+  handleClose();
+}
+
 
   const classes = useStyles();
 
@@ -96,15 +126,23 @@ React.useEffect(() => {
           </CardActionArea>
           <CardActions >
            
-            <Button size="small" color="primary" onClick={() => console.log('1')}>
+            <Button size="small" color="primary" onClick={() => openEdit('paper')}>
               Izmeni
             </Button>
-            <Button  size="small" color="secondary"  onClick={handleClickOpen('paper')}>
+            <Button  size="small" color="secondary"  onClick={() => openRemove('paper')}>
               Obriši
             </Button>
           </CardActions>
-
-          <Dialog
+            <Modal open={open}
+                   handleConfirm={handleRemove}
+                   handleCancel={handleClose}
+                   handleClose={handleClose}
+                   item={props.item}
+                   scroll={scroll} 
+                   descriptionElementRef={descriptionElementRef}
+                   title={title}
+                   content={content}/>
+          {/* <Dialog
             open={open}
             onClose={handleClose}
             scroll={scroll}
@@ -134,7 +172,8 @@ React.useEffect(() => {
                 Yes
               </Button>
             </DialogActions>
-      </Dialog>
+      </Dialog> */}
+
 
         </Card>
       )
