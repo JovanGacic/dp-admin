@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { logoutUser, addBeer, getAllBeers, deleteBeer } from '../../actions';
+import { logoutUser, addBeer, getAllBeers, deleteBeer, updateBeer } from '../../actions';
 import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -120,7 +120,7 @@ class Beer extends Component {
     const { beers } = this.props;
 
     return beers.map((item) => 
-       <SingleBeer key={item.id} id={item.id} item={item} deleteBeer={this.deleteBeer}/>
+       <SingleBeer key={item.id} id={item.id} item={item} deleteBeer={this.deleteBeer} updateBeer={this.updateBeer}/>
     );
   }
 
@@ -128,8 +128,16 @@ class Beer extends Component {
     const { dispatch } = this.props;
     dispatch(deleteBeer(beerId));
   }
+
+  
+    updateBeer = (beerId) => {
+        const { dispatch } = this.props;
+        dispatch(updateBeer(beerId))
+    }
+
 }
 
+ 
 function mapStateToProps(state){
     return {
         beers: state.auth.beers

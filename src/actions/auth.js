@@ -540,11 +540,11 @@ export const getAllBeers = () => dispatch => {
      })
 }
 
-export const deleteBeer = (beerId) => dispatch => {
+export const deleteBeer = (beer) => dispatch => {
     dispatch(deleteBeerRequest());
     myFirebase
      .database()
-     .ref('/beers/' + beerId)
+     .ref('/beers/' + beer.id)
      .remove()
      .then(() =>
         dispatch(deleteBeerSuccess())
@@ -558,10 +558,11 @@ export const deleteBeer = (beerId) => dispatch => {
 
 export const updateBeer = (beer) => dispatch => {
     dispatch(updateBeerRequest());
+    console.log(beer);
     myFirebase
      .database()
      .ref('/beers/' + beer.id)
-     .update({'name':beer.name, 'price': beer.price, 'volume':beer.volume, 'downloadUrl':beer.url},  
+     .update({'name':beer.name, 'price': beer.price, 'volume':beer.volume, 'downloadUrl':beer.downloadUrl},  
       function(error) {
         if (error) {
              console.log('update failed');

@@ -6,17 +6,13 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import TextField from '@material-ui/core/TextField';
 
-// import Dialog from '@material-ui/core/Dialog';
-// import DialogActions from '@material-ui/core/DialogActions';
-// import DialogContent from '@material-ui/core/DialogContent';
-// import DialogContentText from '@material-ui/core/DialogContentText';
-// import DialogTitle from '@material-ui/core/DialogTitle';
+import EditBeer from '../EditBeer/EditBeer';
 import { makeStyles } from '@material-ui/core/styles';
+import Modal from '../Modal/Modal';
 import './SingleBeer.css';
 
-import Modal from '../Modal/Modal';
+
 
 export default function SingleBeer (props) {
 
@@ -37,6 +33,10 @@ const [open, setOpen] = React.useState(false);
 const [scroll, setScroll] = React.useState('paper');
 const [title, setTitle] = React.useState('');
 const [content, setContent] = React.useState(null);
+const [cancelLabel, setCancelLabel] = React.useState(null);
+const [confirmLabel, setConfirmLabel] = React.useState(null);
+const [actionConfirm, setActionConfirm] = React.useState(null);
+
 
 const descriptionElementRef = React.useRef(null);
 
@@ -53,20 +53,22 @@ const openRemove = scrollType => {
  setOpen(true);
  setScroll(scrollType);
  setTitle('Confirm delete');
+ setCancelLabel('No');
+ setConfirmLabel('Yes');
  setContent(<div>
               Are you sure you want to delete <b>{props.item.name}</b> beer?
           </div>);
+  setActionConfirm(() => handleRemove);
 }
 
 const openEdit = scrollType => {
   setOpen(true);
   setScroll(scrollType);
   setTitle('Confirm edit');
-  setContent(<CardContent>
-              <TextField id="outlined-basic1" label="New name" variant="outlined" onChange={event => console.log('name change')} />
-              <TextField id="outlined-basic1" label="new price" variant="outlined" onChange={event => console.log('price change')} />
-              <TextField id="outlined-basic1" label="New volume" variant="outlined" onChange={event => console.log('volume change')} />
-            </CardContent>);
+  setCancelLabel('Cancel');
+  setConfirmLabel('Confirm');
+  setContent(<EditBeer name={props.item.name} price={props.item.price} volume={props.item.volume} />);
+  setActionConfirm(() => handleEdit);
  }
 
 
@@ -83,6 +85,11 @@ const openEdit = scrollType => {
 
 const handleRemove = (beerId) => {
   props.deleteBeer(beerId);
+  handleClose();
+}
+
+const handleEdit = (beerId) => {
+  props.updateBeer(beerId);
   handleClose();
 }
 
@@ -134,14 +141,16 @@ const handleRemove = (beerId) => {
             </Button>
           </CardActions>
             <Modal open={open}
-                   handleConfirm={handleRemove}
+                   handleConfirm={actionConfirm}
                    handleCancel={handleClose}
                    handleClose={handleClose}
                    item={props.item}
                    scroll={scroll} 
                    descriptionElementRef={descriptionElementRef}
                    title={title}
-                   content={content}/>
+                   content={content}
+                   cancelLabel={cancelLabel}
+                   confirmLabel={confirmLabel}/>
           {/* <Dialog
             open={open}
             onClose={handleClose}

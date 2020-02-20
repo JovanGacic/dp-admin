@@ -11,7 +11,7 @@ import {
 
 
 
-const Modal = ({descriptionElementRef, handleClose, open, scroll, title, item, handleCancel, handleConfirm, content}) => {
+const Modal = ({descriptionElementRef, handleClose, open, scroll, title, item, handleCancel, handleConfirm, content, actionCancel, actionConfirm, cancelLabel, confirmLabel}) => {
     
     return (
         <Dialog
@@ -38,10 +38,10 @@ const Modal = ({descriptionElementRef, handleClose, open, scroll, title, item, h
         
         <DialogActions>
           <Button onClick={() => handleClose()} color="primary">
-            No
+            {cancelLabel}
           </Button>
-          <Button onClick={() => handleConfirm(item.id)} color="primary">
-            Yes
+          <Button onClick={() => handleConfirm(item)} color="primary">
+            {confirmLabel}
           </Button>
         </DialogActions>
   </Dialog>
