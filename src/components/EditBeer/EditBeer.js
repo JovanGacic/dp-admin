@@ -14,14 +14,17 @@ class EditBeer extends Component {
 
 handleName(name){
     this.setState({name});
+    this.props.handleName(this.state.name);
 }
 
 handlePrice(price){
     this.setState({price});
+    this.props.handlePrice(price);
 }
 
 handleVolume(volume){
     this.setState({volume});
+    this.props.handleVolume(volume);
 }
 
     render(){

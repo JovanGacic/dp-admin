@@ -11,7 +11,7 @@ import {
 
 
 
-const Modal = ({descriptionElementRef, handleClose, open, scroll, title, item, handleCancel, handleConfirm, content, actionCancel, actionConfirm, cancelLabel, confirmLabel}) => {
+const Modal = ({descriptionElementRef, handleClose, open, scroll, title, item, handleCancel, handleConfirm, content, actionCancel, actionConfirm, cancelLabel, confirmLabel, handleChanges}) => {
     
     return (
         <Dialog

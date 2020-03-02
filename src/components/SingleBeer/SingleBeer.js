@@ -37,6 +37,9 @@ const [cancelLabel, setCancelLabel] = React.useState(null);
 const [confirmLabel, setConfirmLabel] = React.useState(null);
 const [actionConfirm, setActionConfirm] = React.useState(null);
 
+const [newBeerName, setNewBeerName] = React.useState('');
+const [newBeerPrice, setNewBeerPrice] = React.useState(null);
+const [newBeerVolume, setNewBeerVolume] = React.useState(null);
 
 const descriptionElementRef = React.useRef(null);
 
@@ -67,10 +70,28 @@ const openEdit = scrollType => {
   setTitle('Confirm edit');
   setCancelLabel('Cancel');
   setConfirmLabel('Confirm');
-  setContent(<EditBeer name={props.item.name} price={props.item.price} volume={props.item.volume} />);
+  setContent(<EditBeer name={props.item.name}
+                       price={props.item.price}
+                       volume={props.item.volume} 
+                       handleName={handleBeerNameEdit}
+                       handlePrice={handleBeerPriceEdit}
+                       handleVolume={handleBeerVolumeEdit}
+    />);
   setActionConfirm(() => handleEdit);
  }
 
+ const handleBeerNameEdit = newName => {
+   setNewBeerName(newName);
+   console.log(newBeerName);
+ }
+
+ const handleBeerPriceEdit = (newPrice) => {
+   setNewBeerPrice(newPrice);
+ }
+  
+ const handleBeerVolumeEdit = (newVolume) => {
+   setNewBeerVolume(newVolume);
+ }
 
 
 // const handleClickOpen = scrollType => () => {
@@ -150,7 +171,8 @@ const handleEdit = (beerId) => {
                    title={title}
                    content={content}
                    cancelLabel={cancelLabel}
-                   confirmLabel={confirmLabel}/>
+                   confirmLabel={confirmLabel}
+                   />
           {/* <Dialog
             open={open}
             onClose={handleClose}
