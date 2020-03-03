@@ -34,7 +34,7 @@ state = {
         <div className="home">
           <NavBar logoutUser={this.handleLogout}/>
           <h2>Orders</h2>
-          <div className="body">
+            <div className="body">
             <div className="lmnt">{this.renderData()}</div>
           </div>
           <ToastContainer position={toast.POSITION.BOTTOM_RIGHT} />

@@ -3,6 +3,8 @@ import Login from './components/Login/Login';
 import Home from './components/Home/Home';
 import Users from './components/Users/Users';
 import Beer from './components/Beer/Beer';
+import Brands from './components/Brands/Brands';
+
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import {
     BrowserRouter as Router,
@@ -28,6 +30,7 @@ function App(props) {
         <Route path="/login" component={Login} />
         <ProtectedRoute isAuthenticated={isAuthenticated} exact path="/beers" component={Beer}/>
         <ProtectedRoute isAuthenticated={isAuthenticated} isVerifying={isVerifying} exact path="/users" component={Users}/>
+        <ProtectedRoute isAuthenticated={isAuthenticated} isVerifying={isVerifying} exact path="/brands" component={Brands}/>
     </Switch>
     </Router>
   );

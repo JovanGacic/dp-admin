@@ -253,6 +253,19 @@ function NavBar(props) {
                <LocalDrinkIcon/>
                </IconButton>
             </Tooltip>
+       
+            <Tooltip title="Brands">
+              <IconButton 
+                edge="start"
+                className={classes.menuButton}
+                color="inherit"
+                aria-label="open drawer"
+                to='/brands' 
+                component={Link}
+              >
+               <LocalDrinkIcon/>
+               </IconButton>
+            </Tooltip>
             
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
